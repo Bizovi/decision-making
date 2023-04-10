@@ -14,3 +14,39 @@ That's it, whatever will be published here can't be the be-all-end-all bootcamp 
     - In the case of everything goes - there is a risk of wandering aimlessly and not finding a home
 - Fixating on beliefs and propositional knowing (the facts!) is counterproductive. Which should put into question all written above
 - Fixating on skills makes you lose the grasp of the big picture
+
+## Recent highlights
+
+The repository will go through many changes as we go through the journey together, but you can get a sneak-peek of what it's about in the `/playground` directory. Of course it's unstable.
+
+| ![Influence DAG](docs/img/output.svg)
+|:--:|
+| **(Fig.1) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)|
+
+Practice and readings for this week:
+- Walk through this tutorial: ["Introduction to conda for (data) scientists"](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/). It will serve you well for exploration and experimentation. 
+    - For projects more focused on building data-driven applications, we will use `pip` and `poetry`.
+    - We can use `conda` just for virtual environments and not for package management and dependency resolution / tracking.
+    - Therefore, one has to pick an optimal approach for each project. Not great, but could be worse (as in `npm`) 
+
+
+
+## Getting Started
+
+If you have `conda` installed on Linux, MacOS or WSL2 on Windows, the easiest way to play around with the notebook is to recreate the environment from the yml file. Then, you can either create a kernel or connect from VSCode notebooks to the environment and start hacking.
+
+```bash
+git clone https://github.com/bizovi/decision-making.git
+
+cd playground
+conda env create --file conda-env.yml
+conda activate gpa-prob
+
+# if using a jupyter lab
+python -m ipykernel install --user \
+    --name="gpa-kernel" \
+    --display-name="Kernel for Simulations"
+
+# run the test suite and see if everything works as expected
+python -m pytest 
+```
