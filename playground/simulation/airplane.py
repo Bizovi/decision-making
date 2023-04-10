@@ -1,6 +1,27 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import graphviz as gr
+
+def plot_causal_graph() -> None:
+    g = gr.Digraph()
+
+    with g.subgraph(name='cluster_1') as c:
+        c.attr(label='1:nr_trips')
+        c.edges([
+            ("X2", "X3"),    ("X3", "Y mix"), ("X2", "Y mix"), 
+            ("X1", "Y ind"), ("Y ind", "Y"),  ("Y mix", "Y" ),
+        ])
+        c.node("X3", color="lightblue", style='filled')
+        c.node("X1", color="lightblue", style='filled')
+
+    g.node("pr_showup", fillcolor="lightgrey", style="filled")
+    g.edge("pr_showup", "Y ind")
+    g.edge("pr_showup", "Y mix")
+
+    g.node("share\ncouples", fillcolor="lightgrey", style="filled")
+    g.edge("share\ncouples", "X2")
+    return g
 
 
 def compute_nr_passengers(
@@ -20,12 +41,13 @@ def compute_nr_passengers(
             rng.binomial(1, p_couple_reservation, size=nr_samples) + 
             2 * rng.binomial(1, p_showup**2, size=nr_samples)
         )
-    })
-
-    # either this or use .assign(lambda df_: ...) method chaining
-    df["nr_show_up"] = (
-        df.third_wheel * df.y_mix + (1 - df.third_wheel) * df.y_individuals
-    )
+    }).assign(
+        nr_show_up = (
+            lambda df_: 
+            df_.third_wheel*df_.y_mix + 
+            (1 - df_.third_wheel) * df_.y_individuals
+        )
+    )   
 
     return df
 

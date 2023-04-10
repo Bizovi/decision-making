@@ -1,0 +1,11 @@
+name: gpa-prob
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - graphviz
+  - ipykernel
+  - numpy
+  - pandas
+  - matplotlib
+  - pytest
