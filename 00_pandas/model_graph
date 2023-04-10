@@ -1,0 +1,33 @@
+digraph Bayesian_Model {
+	alpha [label="α"]
+	beta [label="β"]
+	ui [label=u_i]
+	vj [label=v_j]
+	category [label="category(k)"]
+	color [label="color(k)"]
+	theta [label="θ"]
+	phi [label="ϕ"]
+	psi [label="ψ"]
+	yijk [label="y_{ijk}"]
+	zijk [label="z_{ijk}"]
+	rijk [label="r_{ijk}"]
+	alpha -> ui
+	beta -> ui
+	alpha -> vj
+	beta -> vj
+	ui -> yijk
+	vj -> yijk
+	category -> yijk
+	color -> yijk
+	theta -> yijk
+	ui -> zijk
+	vj -> zijk
+	category -> zijk
+	color -> zijk
+	phi -> zijk
+	ui -> rijk
+	vj -> rijk
+	category -> rijk
+	color -> rijk
+	psi -> rijk
+}
