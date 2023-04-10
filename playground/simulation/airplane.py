@@ -2,8 +2,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import graphviz as gr
+plt.style.use("ggplot")
+
 
 def plot_causal_graph() -> None:
+    """A low-resolution influence graph, a story of how people show up"""
     g = gr.Digraph()
 
     with g.subgraph(name='cluster_1') as c:
@@ -31,7 +34,24 @@ def compute_nr_passengers(
         nr_samples: int = 5000,
         seed : int = 1317,
 ) -> pd.DataFrame:
-    """Simulate the outcomes of the airplane problem ... """
+    """Simulates how many passengers will show up to a safari or flight, if there are 
+    only 3 spots on the plane / car. Couples don't show up if any of them doesn't go.
+
+    Arguments:
+        * p_showup: probability that each individual will keep the promise
+        * p_couple: probability that a person will bring a (+1) - attention,
+            the narrative is that one reserves the spot and drags another,
+            so p_couple in the population isn't what will end up on the plane
+        * nr_samples: you could use something more realistic, of a few years 
+            being in business -- there will be more uncertainty
+        * seed: to ensure reproducibility
+
+    Returns: pd.DataFrame with the following columns
+        * third_wheel: whether there is a couple making a reservation  
+        * y_individuals: number of individuals who show up if reserved independently
+        * y_mix: number of individuals who show when a couple made reservation
+        * nr_show_up: final number of individuals who show up
+    """
     rng = np.random.default_rng(seed=seed)
     p_couple_reservation = (1 - (1 - p_couple)**2)
     df = pd.DataFrame({
@@ -48,11 +68,22 @@ def compute_nr_passengers(
             (1 - df_.third_wheel) * df_.y_individuals
         )
     )   
-
     return df
 
 
 def plot_passengers(df: pd.DataFrame, p_showup=0.85) -> None:
+       """Visualize the distribution of people who show up, if there are only individuals,
+       or couples + individuals in our statistical population
+       
+        Arguments:
+            * df: pd.DataFrame with the following columns
+                * third_wheel: whether there is a couple making a reservation  
+                * y_individuals: number of individuals who show up if reserved independently
+                * y_mix: number of individuals who show when a couple made reservation
+                * nr_show_up: final number of individuals who show up
+            * p_showup: the theoretical value of the parameter p (share ppl showing up)
+
+       """
        rng = np.random.default_rng(seed=1317)
        nr_samples = len(df)
        show_up_pmf: pd.Series = df.nr_show_up.value_counts() / nr_samples
