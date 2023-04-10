@@ -23,11 +23,15 @@ The repository will go through many changes as we go through the journey togethe
 |:--:|
 | **(Fig.1) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)|
 
-Practice and readings for this week:
+### Week 3: Practice and readings
+
+First, you have to be confident and comfortable with your local development tooling. Invest an hour to understand conda and type in the commands -- benefit a decade ahead!
+
 - Walk through this tutorial: ["Introduction to conda for (data) scientists"](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/). It will serve you well for exploration and experimentation. 
     - For projects more focused on building data-driven applications, we will use `pip` and `poetry`.
     - We can use `conda` just for virtual environments and not for package management and dependency resolution / tracking.
-    - Therefore, one has to pick an optimal approach for each project. Not great, but could be worse (as in `npm`) 
+    - Therefore, one has to pick an optimal approach for each project. Not great, but could be worse (as in `npm`)
+- Read this old, but still relevant blog post about ["Conda: Myths and Misconceptions"](https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/)
 
 
 
