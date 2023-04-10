@@ -19,9 +19,9 @@ That's it, whatever will be published here can't be the be-all-end-all bootcamp 
 
 The repository will go through many changes as we go through the journey together, but you can get a sneak-peek of what it's about in the `/playground` directory. Of course it's unstable.
 
-| ![Influence DAG](docs/img/output.svg)
-|:--:|
-| **(Fig.1) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)|
+| ![Influence DAG](docs/img/output.svg)| ![LLN](docs/img/llln.png)|
+|:--:|:--:|
+| **(Fig.1) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)| **(Fig.2) - The greatest theorem never told** adapted and refactored [from CamDavidson](https://nbviewer.org/github/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter4_TheGreatestTheoremNeverTold/Ch4_LawOfLargeNumbers_PyMC3.ipynb) (upcoming!)
 
 ### Week 3: Practice and readings
 
