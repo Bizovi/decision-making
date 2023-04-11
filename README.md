@@ -15,19 +15,13 @@ That's it, whatever will be published here can't be the be-all-end-all bootcamp 
 - Fixating on beliefs and propositional knowing (the facts!) is counterproductive. Which should put into question all written above
 - Fixating on skills makes you lose the grasp of the big picture
 
-## Recent highlights
+## Lecture previews: Practice and Readings
 
 The repository will go through many changes as we go through the journey together, but you can get a sneak-peek of what it's about in the `/playground` directory. Of course it's unstable.
 
-| ![Influence DAG](docs/img/output.svg)| ![LLN](docs/img/llln.png)|
-|:--:|:--:|
-| **(Fig.1) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)| **(Fig.2) - The greatest theorem never told** adapted and refactored [from CamDavidson](https://nbviewer.org/github/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter4_TheGreatestTheoremNeverTold/Ch4_LawOfLargeNumbers_PyMC3.ipynb) (upcoming!)
+As outlined in the [course website](https://course.economic-cybernetics.com/), we'll be contemplating in the library and engineering in the trenches, so here are lecture thumbnails, along with the suggested practices and readings, updated every week.
 
-## Practice and Readings
-
-As outlined in the [course website](https://course.economic-cybernetics.com/), we'll be contemplating in the library and engineering in the trenches, so here are the suggested practices and readings, updated every week. 
-
-### Lecture 1: Data Science in Business Context
+## Lecture 1: Data Science in Business Context
 
 The first lecture is conceptual, as we explore and articulate the big picture of AI. I highly suggest you read [this story](#the-philosophy-v2), which gives a fun outline and roadmap for the course.
 - What is the course about and why should you care? I sketch it out [here](https://course.economic-cybernetics.com/).
@@ -36,7 +30,7 @@ The first lecture is conceptual, as we explore and articulate the big picture of
 - M. Jordan explains what is AI, [how its meaning changed](https://hdsr.mitpress.mit.edu/pub/wot7mkc1/release/9) and what we're [far from a GAI](https://spectrum.ieee.org/stop-calling-everything-ai-machinelearning-pioneer-says) 
 
 
-### Lecture 2: The probabilitstic Multiverse
+## Lecture 2: The probabilitstic Multiverse
 
 The second lecture is also conceptual, but in a more mathematical sense, as I attempt to build the bridge between reality and the language of uncertainty (probability theory).
 
@@ -48,7 +42,16 @@ There are three amazing resources which you can use as reference and inspiration
 - [Probability for Data Science](https://probability4datascience.com/) by Stanley Chan (Purdue), with python code. Amazing graphics, visualizations, accessible and extensive mathematical treatment.
 - [Probability](https://youtube.com/playlist?list=PLhCDzMM3Yov0ZIaxcUlsHh2T9XmiVqgMi) by Santosh Venkatesh (University of Pennsylvania), once available on coursera, now on youtube. Great real-world examples from numerous domains, gentle build-up towards more complicated concepts. Unfortunately, no code or book -- but you can combine this playlist with one of the above.
 
-### Lecture 3: Simulation and Refactoring
+## Lecture 3: Simulation and Refactoring
+
+- DAGs
+- Python environments, modules, packages, jupyter notebook
+- Functional programming
+
+| ![Influence DAG](docs/img/output.svg)| ![PMF](docs/img/L3_visual_communication.png)|
+|:--:|:--:|
+| **(Fig.1) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)| **(Fig.2) - We discussed the importance of visual storytelling:** relevance, persuasiveness,truthfulness, and aesthetics.
+
 
 First, you have to be confident and comfortable with your local development tooling. Invest an hour to understand conda and type in the commands -- benefit a decade ahead!
 
@@ -57,6 +60,61 @@ First, you have to be confident and comfortable with your local development tool
     - We can use `conda` just for virtual environments and not for package management and dependency resolution / tracking.
     - Therefore, one has to pick an optimal approach for each project. Not great, but could be worse (as in `npm`)
 - Read this old, but still relevant blog post about ["Conda: Myths and Misconceptions"](https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/)
+
+
+## Lecture 4: Bayes Theorem, LLN, CLT (upcoming...)
+
+- parameter (estimand), estimator, estimation
+- deMoivre: "The most dangerous equation"
+- what does a statistician want? properties of estimators
+- pymc
+- exponential / poisson
+- beta / binomial -> cheating and bayesian A/B testing
+- linear regression
+    - categorical variables
+- bias-variance, rao-cramer, fisher information
+
+| ![Probability Tree](docs/img/L4_medical_testing.svg)| ![DAGs](docs/img/llln.png)|
+|:--:|:--:|
+| **(Fig.3) - Bayes Theorem and Rare Diseases. Inverse probabilities and conditioning** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/02_bayes.ipynb)| **(Fig.4) - The greatest theorem never told** adapted and refactored [from CamDavidson](https://nbviewer.org/github/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter4_TheGreatestTheoremNeverTold/Ch4_LawOfLargeNumbers_PyMC3.ipynb) (upcoming!)
+
+
+## Lecture 5: Generalized Linear Madness (upcoming ...)
+
+- poisson regression and overdispersion -> generalized poisson
+- negative binomial
+- logistic regression
+- multinomial regression (dirichlet)
+- hierarchical models
+
+## Lecture 6: A/B Testing and Causal Inference (upcoming ...)
+
+- scientific process, 12 steps for statistics
+- metrics
+- hypothesis testing
+    - power, confidence intervals, relevance
+
+| ![Probability Tree](docs/img/L4_basic_dags.svg)| 
+|:--:|
+|  **(Fig.5) - The basic structures of causal reasoning** as a tool to become aware of fallacies and declare our modeling assumtions explicitly|
+
+## Lecture 7: Tree-based ensembles (upcoming...)
+
+- CRISP-DM, 12 steps for ML
+- what is machine learning
+    - implicit learning, intuition and bias
+- bagging and boosting
+
+## Lecture 8: Unsupervised Learning (upcoming...)
+
+
+## Lecture 9: Deep Learning for Natural Language (upcoming...)
+
+## Lecture 10: Deep Learning for Computer Vision (upcoming...)
+
+## Lecture 11: Special topics - time series (upcoming...)
+
+## Lecture 12: Special topics - recommender systems (upcoming...)
 
 
 
