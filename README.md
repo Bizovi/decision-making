@@ -21,11 +21,14 @@ The repository will go through many changes as we go through the journey togethe
 
 As outlined in the [course website](https://course.economic-cybernetics.com/), we'll be contemplating in the library and engineering in the trenches, so here are lecture thumbnails, along with the suggested practices and readings, updated every week.
 
+# Module I: The fundamentals of Data Science
 ## Lecture 1: Data Science in Business Context
 
 The first lecture is conceptual, as we explore and articulate the big picture of AI. I highly suggest you read [this story](#the-philosophy-v2), which gives a fun outline and roadmap for the course.
 - What is the course about and why should you care? I sketch it out [here](https://course.economic-cybernetics.com/).
 - It is important to understand AI in context: what it is, where it is applied. Read [here](https://course.economic-cybernetics.com/01_fundamentals/background.html) to get the difference between Analytics, Statistics, and ML.
+
+### Reading and Practice
 - See one of my conference talks at BigDataWeek, intended for a mixed tech/business audience: [Pragmatic AI in Google Cloud Platform](https://www.youtube.com/watch?v=02NPR_nDaxQ)
 - M. Jordan explains what is AI, [how its meaning changed](https://hdsr.mitpress.mit.edu/pub/wot7mkc1/release/9) and what we're [far from a GAI](https://spectrum.ieee.org/stop-calling-everything-ai-machinelearning-pioneer-says) 
 
@@ -34,6 +37,8 @@ The first lecture is conceptual, as we explore and articulate the big picture of
 
 The second lecture is also conceptual, but in a more mathematical sense, as I attempt to build the bridge between reality and the language of uncertainty (probability theory).
 
+### Reading and Practice
+<!-- Separate the reading and homework practice-->
 - Read about a few fundamental ideas and concepts in probability and why we need them [here](https://course.economic-cybernetics.com/01_fundamentals/stat_foundations.html)
 - To assess if you need a refresher over probability and statistics, look at this study guide I wrote for the winter 2022 cohort [here](https://course.economic-cybernetics.com/05_archive/winter_2022.html)
 
@@ -44,14 +49,25 @@ There are three amazing resources which you can use as reference and inspiration
 
 ## Lecture 3: Simulation and Refactoring
 
-- DAGs
-- Python environments, modules, packages, jupyter notebook
-- Functional programming
 
 | ![Influence DAG](docs/img/output.svg)| ![PMF](docs/img/L3_visual_communication.png)|
 |:--:|:--:|
 | **(Fig.1) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)| **(Fig.2) - We discussed the importance of visual storytelling:** relevance, persuasiveness,truthfulness, and aesthetics.
 
+### Conceptual Understanding
+
+- DAGs
+- Python environments, modules, packages, jupyter notebook
+- Functional programming
+
+### Engineering and applications
+- conda
+- jupyter
+- numpy
+- pandas
+- matplotlib
+
+### Reading and Practice
 
 First, you have to be confident and comfortable with your local development tooling. Invest an hour to understand conda and type in the commands -- benefit a decade ahead!
 
@@ -62,30 +78,43 @@ First, you have to be confident and comfortable with your local development tool
 - Read this old, but still relevant blog post about ["Conda: Myths and Misconceptions"](https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/)
 
 
-## Lecture 4: Bayes Theorem, LLN, CLT (upcoming...)
+## Lecture 4: Estimators, LLN, CLT (upcoming...)
 
-- parameter (estimand), estimator, estimation
-- deMoivre: "The most dangerous equation"
-- what does a statistician want? properties of estimators
-- pymc
-- exponential / poisson
-- beta / binomial -> cheating and bayesian A/B testing
-- linear regression
-    - categorical variables
-- bias-variance, rao-cramer, fisher information
 
 | ![Probability Tree](docs/img/L4_medical_testing.svg)| ![DAGs](docs/img/llln.png)|
 |:--:|:--:|
 | **(Fig.3) - Bayes Theorem and Rare Diseases. Inverse probabilities and conditioning** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/02_bayes.ipynb)| **(Fig.4) - The greatest theorem never told** adapted and refactored [from CamDavidson](https://nbviewer.org/github/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter4_TheGreatestTheoremNeverTold/Ch4_LawOfLargeNumbers_PyMC3.ipynb) (upcoming!)
 
+### Conceptual Understanding
+- Think like a Bayesian (or a scout)
+- parameter (estimand), estimator, estimation
+- deMoivre: "The most dangerous equation": are U.S. schools too big?
+- what does a statistician want? properties of estimators
+- Loss functions
+
+### Engineering and applications
+- a note on reproducible research and replication crisis -> what can go wrong
+- pymc
+- exponential / poisson
+- beta / binomial -> cheating and bayesian A/B testing
+- linear regression
+    - categorical variables
+
+### Reading and Practice
+
+- bias-variance for modern ML, rao-cramer, fisher information
 
 ## Lecture 5: Generalized Linear Madness (upcoming ...)
 
-- poisson regression and overdispersion -> generalized poisson
-- negative binomial
+- poisson regression and overdispersion 
 - logistic regression
-- multinomial regression (dirichlet)
 - hierarchical models
+
+### Reading and Practice
+- generalized poisson
+- negative binomial
+- multinomial regression (dirichlet)
+
 
 ## Lecture 6: A/B Testing and Causal Inference (upcoming ...)
 
@@ -96,8 +125,13 @@ First, you have to be confident and comfortable with your local development tool
 
 | ![Probability Tree](docs/img/L4_basic_dags.svg)| 
 |:--:|
-|  **(Fig.5) - The basic structures of causal reasoning** as a tool to become aware of fallacies and declare our modeling assumtions explicitly|
+|**(Fig.5) - The basic structures of causal reasoning** as a tool to become aware of fallacies and declare our modeling assumtions explicitly|
 
+
+# Module II: ML and Deep Learning
+
+### Reading and Practice
+- trueskill by Microsoft
 ## Lecture 7: Tree-based ensembles (upcoming...)
 
 - CRISP-DM, 12 steps for ML
@@ -105,8 +139,13 @@ First, you have to be confident and comfortable with your local development tool
     - implicit learning, intuition and bias
 - bagging and boosting
 
-## Lecture 8: Unsupervised Learning (upcoming...)
+## Lecture 7a: Fundamentals of classification (upcoming...)
 
+
+## Lecture 8: Unsupervised Learning (upcoming...)
+- PCA, SVD
+- UMAP
+- HDBSCAN
 
 ## Lecture 9: Deep Learning for Natural Language (upcoming...)
 
