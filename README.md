@@ -2,11 +2,16 @@
 
 This repository emerges out of teaching data science to students of various backgrounds and my practice in the industry. I aspire to contribute to the understanding of this complex landscape and teach people how to navigate it, how to develop valuable skills, and become more effective at problem-solving.
 
-## Lecture previews: Practice and Readings
+As outlined in the [course website](https://course.economic-cybernetics.com/), we'll be contemplating in the library and engineering in the trenches, so here are lecture thumbnails, along with suggested practices and readings. I recommend to start your journey with the statistical fundamentals, as I re-contextualize and build on top of them towards more sophisticated, but interpretable models, which would aid decision-makers. To learn more about the interdisciplinary approach to decision-making, read the [course philosophy](#the-philosophy-v2).
 
-The repository will go through many changes as we go through the journey together, but you can get a sneak-peek of what it's about in the `/playground` directory. Of course it's unstable.
+- [Module I: The fundamentals of Data Science](#module-i-the-fundamentals-of-data-science)
+- [Module II: ML and Deep Learning](#module-ii-ml-and-deep-learning)
+- [Module III: Full-Stack Data Apps in Python](#module-iii-full-stack-data-apps-in-python)
+- [Getting started with the code examples](#getting-started)
+- [Prerequisites (tbd)](#module-0-prerequisites)
 
-As outlined in the [course website](https://course.economic-cybernetics.com/), we'll be contemplating in the library and engineering in the trenches, so here are lecture thumbnails, along with the suggested practices and readings, updated every week.
+The repository will go through many changes as we go through the journey together, but you can get a sneak-peek of what it's about in the `/playground` directory.
+
 
 # Module I: The fundamentals of Data Science
 ## Lecture 1: Data Science in Business Context
