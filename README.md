@@ -54,30 +54,6 @@ There are three amazing resources which you can use as reference and inspiration
 |:--:|:--:|
 | **(Fig.1) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)| **(Fig.2) - We discussed the importance of visual storytelling:** relevance, persuasiveness,truthfulness, and aesthetics.
 
-### Conceptual Understanding
-
-- DAGs
-- Python environments, modules, packages, jupyter notebook
-- Functional programming
-
-### Engineering and applications
-- conda
-- jupyter
-- numpy
-- pandas
-- matplotlib
-
-### Reading and Practice
-
-First, you have to be confident and comfortable with your local development tooling. Invest an hour to understand conda and type in the commands -- benefit a decade ahead!
-
-- Walk through this tutorial: ["Introduction to conda for (data) scientists"](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/). It will serve you well for exploration and experimentation. 
-    - For projects more focused on building data-driven applications, we will use `pip` and `poetry`.
-    - We can use `conda` just for virtual environments and not for package management and dependency resolution / tracking.
-    - Therefore, one has to pick an optimal approach for each project. Not great, but could be worse (as in `npm`)
-- Read this old, but still relevant blog post about ["Conda: Myths and Misconceptions"](https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/)
-
-
 ## Lecture 4: Estimators, LLN, CLT (upcoming...)
 
 
@@ -132,29 +108,62 @@ First, you have to be confident and comfortable with your local development tool
 
 ### Reading and Practice
 - trueskill by Microsoft
-## Lecture 7: Tree-based ensembles (upcoming...)
+## Lecture 1: Tree-based ensembles (upcoming...)
 
 - CRISP-DM, 12 steps for ML
 - what is machine learning
     - implicit learning, intuition and bias
 - bagging and boosting
 
-## Lecture 7a: Fundamentals of classification (upcoming...)
+## Lecture 1a: Fundamentals of classification (upcoming...)
 
 
-## Lecture 8: Unsupervised Learning (upcoming...)
+## Lecture 2: Unsupervised Learning (upcoming...)
 - PCA, SVD
 - UMAP
 - HDBSCAN
 
-## Lecture 9: Deep Learning for Natural Language (upcoming...)
+## Lecture 3: Deep Learning for Natural Language (upcoming...)
 
-## Lecture 10: Deep Learning for Computer Vision (upcoming...)
+## Lecture 4: Deep Learning for Computer Vision (upcoming...)
 
-## Lecture 11: Special topics - time series (upcoming...)
+## Lecture 5: Special topics - time series (upcoming...)
 
-## Lecture 12: Special topics - recommender systems (upcoming...)
+## Lecture 6: Special topics - recommender systems (upcoming...)
 
+# Module III: Full-Stack Data Apps in Python
+
+## Lecture 1: The python ecosystem
+
+| ![Python Ecosystem DSc](docs/img/LE_pyeco1.svg)| 
+|:--:|
+|**(Fig.6) - Practicing the tools for modeling and operationalization of models**|
+
+| ![Python Ecosystem Tooling](docs/img/LE_pyeco2.svg)| 
+|:--:|
+|**(Fig.7) - Getting comfortable with the idea of literate programming and learn the tools which make this whole zoo of technologies run harmoniously**|
+
+## Lecture 2: Setting up an environment
+
+### Conceptual Understanding
+
+- DAGs
+- Python environments (conda), modules, packages, jupyter notebook
+- Functional programming ideas in the context of numpy, pandas
+- The great and terrible matplotlib
+
+### Reading and Practice
+
+First, you have to be confident and comfortable with your local development tooling. Invest an hour to understand conda and type in the commands -- benefit a decade ahead!
+
+- Walk through this tutorial: ["Introduction to conda for (data) scientists"](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/). It will serve you well for exploration and experimentation. 
+    - For projects more focused on building data-driven applications, we will use `pip` and `poetry`.
+    - We can use `conda` just for virtual environments and not for package management and dependency resolution / tracking.
+    - Therefore, one has to pick an optimal approach for each project. Not great, but could be worse (as in `npm`)
+- Read this old, but still relevant blog post about ["Conda: Myths and Misconceptions"](https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/)
+- Read these two introductory articles on modules and packages
+    - [Absolute vs Relative imports](https://realpython.com/absolute-vs-relative-python-imports/) by Mbithe Nzomo
+    - [Python Modules and Packages – An Introduction](https://realpython.com/python-modules-packages/) by John Sturtz
 
 
 ## Getting Started
