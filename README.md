@@ -4,13 +4,15 @@ This repository emerges out of teaching data science to students of various back
 
 That's it, whatever will be published here can't be the be-all-end-all bootcamp or course. But here are a few of my beliefs, which may persuade you to take the long road to your own development in AI instead of searching for "the tutorial":
 
-- There is no shortcut to a deep understanding of a domain, especially an interconnected network of fields and communities being in an evolving dialogue
+- There is no shortcut to deep understanding
+    - Of a domain, especially in an interdisciplinary setting (interconnected network of fields)
+    - With communities engaged in an evolving dialogue
 - There is no shortcut to being skillful at something
 - The journey from novice to expert is not linear, however, the "interest compounds"
 - The journey need not be painful, but it can be seriously playful,a source of wonder and meaning
 - Without skin in the game, we can't claim we truly get something
 - Without a vision which is flexible enough, but at the same time long-lived:
-    - In the case of rigidity - there is a risk of being stuck, rigid, or pursue obsessively, counterproductively, and getting fooled
+    - In the case of rigidity - there is a risk of being stuck, pursue obsessively, counterproductively the wrong thing
     - In the case of everything goes - there is a risk of wandering aimlessly and not finding a home
 - Fixating on beliefs and propositional knowing (the facts!) is counterproductive. Which should put into question all written above
 - Fixating on skills makes you lose the grasp of the big picture
@@ -164,6 +166,7 @@ First, you have to be confident and comfortable with your local development tool
 - Read these two introductory articles on modules and packages
     - [Absolute vs Relative imports](https://realpython.com/absolute-vs-relative-python-imports/) by Mbithe Nzomo
     - [Python Modules and Packages – An Introduction](https://realpython.com/python-modules-packages/) by John Sturtz
+- IMPORTANT! For those of you working on Windows 10/11, here's the best set-up I know of, which involves WSL2. [Here are the instructions](https://towardsdatascience.com/how-to-create-perfect-machine-learning-development-environment-with-wsl2-on-windows-10-11-2c80f8ea1f31)
 
 
 ## Getting Started
