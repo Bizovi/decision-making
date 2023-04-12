@@ -20,9 +20,11 @@ The first lecture is conceptual, as we explore and articulate the big picture of
 - What is the course about and why should you care? I sketch it out [here](https://course.economic-cybernetics.com/).
 - It is important to understand AI in context: what it is, where it is applied. Read [here](https://course.economic-cybernetics.com/01_fundamentals/background.html) to get the difference between Analytics, Statistics, and ML.
 
-### Reading and Practice
-- See one of my conference talks at BigDataWeek, intended for a mixed tech/business audience: [Pragmatic AI in Google Cloud Platform](https://www.youtube.com/watch?v=02NPR_nDaxQ)
-- M. Jordan explains what is AI, [how its meaning changed](https://hdsr.mitpress.mit.edu/pub/wot7mkc1/release/9) and what we're [far from a GAI](https://spectrum.ieee.org/stop-calling-everything-ai-machinelearning-pioneer-says) 
+
+| ![picasso](docs/img/logo.jpeg)| ![big picture](docs/img/elephant-blind.jpeg)|
+|:--:|:--:|
+| **(Fig.1) - Learn what does Pollock and Picasso have to do with statistics and ML** | **(Fig.2) - Learn how everything you learned before fits together into a coherent whole**
+
 
 
 ## Lecture 2: The probabilitstic Multiverse
