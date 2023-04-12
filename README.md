@@ -24,6 +24,14 @@ The first lecture is conceptual, as we explore and articulate the big picture of
 
 The second lecture is also conceptual, but in a more mathematical sense, as I attempt to build the bridge between reality and the language of uncertainty (probability theory).
 
+
+
+| ![Influence DAG](docs/img/output.svg)| ![PMF](docs/img/L3_visual_communication.png)|
+|:--:|:--:|
+| **(Fig.1) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)| **(Fig.2) - We discussed the importance of visual storytelling:** relevance, persuasiveness,truthfulness, and aesthetics.
+
+
+
 ### Reading and Practice
 <!-- Separate the reading and homework practice-->
 - Read about a few fundamental ideas and concepts in probability and why we need them [here](https://course.economic-cybernetics.com/01_fundamentals/stat_foundations.html)
@@ -36,17 +44,9 @@ There are three amazing resources which you can use as reference and inspiration
 
 ## Lecture 3: Simulation and Refactoring
 
-
-| ![Influence DAG](docs/img/output.svg)| ![PMF](docs/img/L3_visual_communication.png)|
+| ![Probability Tree](docs/img/L4_medical_testing.svg)| ![Grid bayes](docs/img/bayes_updating_point.png) |
 |:--:|:--:|
-| **(Fig.1) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)| **(Fig.2) - We discussed the importance of visual storytelling:** relevance, persuasiveness,truthfulness, and aesthetics.
-
-## Lecture 4: Estimators, LLN, CLT (upcoming...)
-
-
-| ![Probability Tree](docs/img/L4_medical_testing.svg)| ![DAGs](docs/img/llln.png)|
-|:--:|:--:|
-| **(Fig.3) - Bayes Theorem and Rare Diseases. Inverse probabilities and conditioning** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/02_bayes.ipynb)| **(Fig.4) - The greatest theorem never told** adapted and refactored [from CamDavidson](https://nbviewer.org/github/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter4_TheGreatestTheoremNeverTold/Ch4_LawOfLargeNumbers_PyMC3.ipynb) (upcoming!)
+| **(Fig.3) - Bayes Theorem and Rare Diseases. Inverse probabilities and conditioning** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/02_bayes.ipynb)| **(Fig. 4) - How confident am I code has no bugs after x tests pass?** Grids and point estimates|
 
 ### Conceptual Understanding
 - Think like a Bayesian (or a scout)
@@ -54,6 +54,16 @@ There are three amazing resources which you can use as reference and inspiration
 - deMoivre: "The most dangerous equation": are U.S. schools too big?
 - what does a statistician want? properties of estimators
 - Loss functions
+
+## Lecture 4: Estimators, LLN, CLT (upcoming...)
+
+
+
+|![DAGs](docs/img/llln.png)| ![Beta-Binomial](docs/img/L4_bayes.png)| 
+|:--:|:--:|
+|**(Fig.5) - The greatest theorem never told** adapted and refactored [from CamDavidson](https://nbviewer.org/github/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter4_TheGreatestTheoremNeverTold/Ch4_LawOfLargeNumbers_PyMC3.ipynb) (upcoming!)|**(Fig.6) - Conjugate priors and the idea of Bayesian updating**. Full luxury bayes: automatic sampling, thoughtful modeling
+
+
 
 ### Engineering and applications
 - a note on reproducible research and replication crisis -> what can go wrong
@@ -88,7 +98,7 @@ There are three amazing resources which you can use as reference and inspiration
 
 | ![Probability Tree](docs/img/L4_basic_dags.svg)| 
 |:--:|
-|**(Fig.5) - The basic structures of causal reasoning** as a tool to become aware of fallacies and declare our modeling assumtions explicitly|
+|**(Fig.7) - The basic structures of causal reasoning** as a tool to become aware of fallacies and declare our modeling assumtions explicitly|
 
 
 # Module II: ML and Deep Learning
@@ -124,11 +134,11 @@ There are three amazing resources which you can use as reference and inspiration
 
 | ![Python Ecosystem DSc](docs/img/LE_pyeco1.svg)| 
 |:--:|
-|**(Fig.6) - Practicing the tools for modeling and operationalization of models**|
+|**(Fig.8) - Practicing the tools for modeling and operationalization of models**|
 
 | ![Python Ecosystem Tooling](docs/img/LE_pyeco2.svg)| 
 |:--:|
-|**(Fig.7) - Getting comfortable with the idea of literate programming and learn the tools which make this whole zoo of technologies run harmoniously**|
+|**(Fig.9) - Getting comfortable with the idea of literate programming and learn the tools which make this whole zoo of technologies run harmoniously**|
 
 ## Lecture 2: Setting up an environment
 
