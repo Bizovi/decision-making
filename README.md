@@ -27,7 +27,7 @@ The first lecture is conceptual, as we explore and articulate the big picture of
 
 
 
-## Lecture 2: The probabilitstic Multiverse
+## Lecture 2: The Probabilitstic Multiverse
 
 The second lecture is also conceptual, but in a more mathematical sense, as I attempt to build the bridge between reality and the language of uncertainty (probability theory).
 
@@ -35,97 +35,65 @@ The second lecture is also conceptual, but in a more mathematical sense, as I at
 
 | ![Influence DAG](docs/img/output.svg)| ![PMF](docs/img/L3_visual_communication.png)|
 |:--:|:--:|
-| **(Fig.1) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)| **(Fig.2) - We discussed the importance of visual storytelling:** relevance, persuasiveness,truthfulness, and aesthetics.
+| **(Fig.3) - How many people will show up to safari?** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/01_tourism.ipynb)| **(Fig.4) - We discussed the importance of visual storytelling:** relevance, persuasiveness,truthfulness, and aesthetics.
 
 
 
 ### Reading and Practice
 <!-- Separate the reading and homework practice-->
 - Read about a few fundamental ideas and concepts in probability and why we need them [here](https://course.economic-cybernetics.com/01_fundamentals/stat_foundations.html)
-- To assess if you need a refresher over probability and statistics, look at this study guide I wrote for the winter 2022 cohort [here](https://course.economic-cybernetics.com/05_archive/winter_2022.html)
+- To assess if you need a refresher over probability and statistics, look at [this study guide](https://course.economic-cybernetics.com/05_archive/winter_2022.html)
 
 There are three amazing resources which you can use as reference and inspiration for introductory to intermediate probability and mathematical statistics. They have recorded video lectures, a freely-available book, and the first two, code:
 - [Probability 110](https://projects.iq.harvard.edu/stat110/home) by Joe Blitzstein (Harvard), with R code. Great stories behind probabilities, numerous examples of applications, and accessible proofs.
 - [Probability for Data Science](https://probability4datascience.com/) by Stanley Chan (Purdue), with python code. Amazing graphics, visualizations, accessible and extensive mathematical treatment.
 - [Probability](https://youtube.com/playlist?list=PLhCDzMM3Yov0ZIaxcUlsHh2T9XmiVqgMi) by Santosh Venkatesh (University of Pennsylvania), once available on coursera, now on youtube. Great real-world examples from numerous domains, gentle build-up towards more complicated concepts. Unfortunately, no code or book -- but you can combine this playlist with one of the above.
 
-## Lecture 3: Simulation and Refactoring
+## Lecture 3: Think like a Bayesian
+
+Statistics is the art and science of changing your mind and action in the face of evidence. We're going to declare our assumptions and apply Bayes theorem to weight the information from data with our prior beliefs.
+
+We're still in the land of probability and generative models, but a step closer towards making inferences about parameters and latent quantities, in order to answer the research questions.
 
 | ![Probability Tree](docs/img/L4_medical_testing.svg)| ![Grid bayes](docs/img/bayes_updating_point.png) |
 |:--:|:--:|
-| **(Fig.3) - Bayes Theorem and Rare Diseases. Inverse probabilities and conditioning** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/02_bayes.ipynb)| **(Fig. 4) - How confident am I code has no bugs after x tests pass?** Grids and point estimates|
+| **(Fig.5) - Bayes Theorem and Rare Diseases. Inverse probabilities and conditioning** [notebook here](https://github.com/Bizovi/decision-making/blob/main/playground/02_bayes.ipynb)| **(Fig. 6) - How confident am I code has no bugs after x tests pass?** Grids and point estimates|
 
-### Conceptual Understanding
-- Think like a Bayesian (or a scout)
-- parameter (estimand), estimator, estimation
-- deMoivre: "The most dangerous equation": are U.S. schools too big?
-- what does a statistician want? properties of estimators
-- Loss functions
 
-## Lecture 4: Estimators, LLN, CLT (upcoming...)
+## Lecture 4: Full Luxury Bayes and Large N
 
+It's time we move away from point estimates, towards a full posterior distribution, which captures the uncertainty in our estimates and can be used to make prediction about the observable quantities.
+
+A few important ideas to add to your conceptual understanding:
+- Parameter (estimand), estimator, estimation
+- DeMoivre: "The most dangerous equation": are U.S. schools too big?
+- What does a statistician want? Properties of estimators.
+- Most practical applications won't have an analytic solution, so we have to use a probabilistic programming language like pymc to draw samples from the posterior
 
 
 |![DAGs](docs/img/llln.png)| ![Beta-Binomial](docs/img/L4_bayes.png)| 
 |:--:|:--:|
-|**(Fig.5) - The greatest theorem never told** adapted and refactored [from CamDavidson](https://nbviewer.org/github/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter4_TheGreatestTheoremNeverTold/Ch4_LawOfLargeNumbers_PyMC3.ipynb) (upcoming!)|**(Fig.6) - Conjugate priors and the idea of Bayesian updating**. Full luxury bayes: automatic sampling, thoughtful modeling
+|**(Fig.7) - The greatest theorem never told** adapted and refactored [from CamDavidson](https://nbviewer.org/github/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter4_TheGreatestTheoremNeverTold/Ch4_LawOfLargeNumbers_PyMC3.ipynb) (upcoming!)|**(Fig.8) - Conjugate priors and the idea of Bayesian updating**. Full luxury bayes: automatic sampling, thoughtful modeling
 
-
-
-### Engineering and applications
-- a note on reproducible research and replication crisis -> what can go wrong
-- pymc
-- exponential / poisson
-- beta / binomial -> cheating and bayesian A/B testing
-- linear regression
-    - categorical variables
-
-### Reading and Practice
-
-- bias-variance for modern ML, rao-cramer, fisher information
 
 ## Lecture 5: Generalized Linear Madness (upcoming ...)
 
-- poisson regression and overdispersion 
-- logistic regression
-- hierarchical models
-
-### Reading and Practice
-- generalized poisson
-- negative binomial
-- multinomial regression (dirichlet)
-
-
 ## Lecture 6: A/B Testing and Causal Inference (upcoming ...)
 
-- scientific process, 12 steps for statistics
-- metrics
-- hypothesis testing
-    - power, confidence intervals, relevance
 
 | ![Probability Tree](docs/img/L4_basic_dags.svg)| 
 |:--:|
-|**(Fig.7) - The basic structures of causal reasoning** as a tool to become aware of fallacies and declare our modeling assumtions explicitly|
+|**(Fig.9) - The basic structures of causal reasoning** as a tool to become aware of fallacies and declare our modeling assumtions explicitly|
 
 
 # Module II: ML and Deep Learning
 
-### Reading and Practice
-- trueskill by Microsoft
 ## Lecture 1: Tree-based ensembles (upcoming...)
-
-- CRISP-DM, 12 steps for ML
-- what is machine learning
-    - implicit learning, intuition and bias
-- bagging and boosting
 
 ## Lecture 1a: Fundamentals of classification (upcoming...)
 
 
 ## Lecture 2: Unsupervised Learning (upcoming...)
-- PCA, SVD
-- UMAP
-- HDBSCAN
 
 ## Lecture 3: Deep Learning for Natural Language (upcoming...)
 
@@ -136,39 +104,6 @@ There are three amazing resources which you can use as reference and inspiration
 ## Lecture 6: Special topics - recommender systems (upcoming...)
 
 # Module III: Full-Stack Data Apps in Python
-
-## Lecture 1: The python ecosystem
-
-| ![Python Ecosystem DSc](docs/img/LE_pyeco1.svg)| 
-|:--:|
-|**(Fig.8) - Practicing the tools for modeling and operationalization of models**|
-
-| ![Python Ecosystem Tooling](docs/img/LE_pyeco2.svg)| 
-|:--:|
-|**(Fig.9) - Getting comfortable with the idea of literate programming and learn the tools which make this whole zoo of technologies run harmoniously**|
-
-## Lecture 2: Setting up an environment
-
-### Conceptual Understanding
-
-- DAGs
-- Python environments (conda), modules, packages, jupyter notebook
-- Functional programming ideas in the context of numpy, pandas
-- The great and terrible matplotlib
-
-### Reading and Practice
-
-First, you have to be confident and comfortable with your local development tooling. Invest an hour to understand conda and type in the commands -- benefit a decade ahead!
-
-- Walk through this tutorial: ["Introduction to conda for (data) scientists"](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/). It will serve you well for exploration and experimentation. 
-    - For projects more focused on building data-driven applications, we will use `pip` and `poetry`.
-    - We can use `conda` just for virtual environments and not for package management and dependency resolution / tracking.
-    - Therefore, one has to pick an optimal approach for each project. Not great, but could be worse (as in `npm`)
-- Read this old, but still relevant blog post about ["Conda: Myths and Misconceptions"](https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/)
-- Read these two introductory articles on modules and packages
-    - [Absolute vs Relative imports](https://realpython.com/absolute-vs-relative-python-imports/) by Mbithe Nzomo
-    - [Python Modules and Packages – An Introduction](https://realpython.com/python-modules-packages/) by John Sturtz
-- IMPORTANT! For those of you working on Windows 10/11, here's the best set-up I know of, which involves WSL2. [Here are the instructions](https://towardsdatascience.com/how-to-create-perfect-machine-learning-development-environment-with-wsl2-on-windows-10-11-2c80f8ea1f31)
 
 
 ## Getting Started
@@ -190,6 +125,37 @@ python -m ipykernel install --user \
 # run the test suite and see if everything works as expected
 python -m pytest 
 ```
+
+## Lecture 1: The python ecosystem
+
+| ![Python Ecosystem DSc](docs/img/LE_pyeco1.svg)| 
+|:--:|
+|**(Fig.10) - Practicing the tools for modeling and operationalization of models**|
+
+| ![Python Ecosystem Tooling](docs/img/LE_pyeco2.svg)| 
+|:--:|
+|**(Fig.11) - Getting comfortable with the idea of literate programming and learn the tools which make this whole zoo of technologies run harmoniously**|
+
+## Lecture 2: Setting up an environment
+
+- Python environments (conda), modules, packages, jupyter notebook
+- Functional programming ideas in the context of numpy, pandas
+- The great and terrible matplotlib
+
+### Reading and Practice
+
+First, you have to be confident and comfortable with your local development tooling. Invest an hour to understand conda and type in the commands -- benefit a decade ahead!
+
+- Walk through this tutorial: ["Introduction to conda for (data) scientists"](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/). It will serve you well for exploration and experimentation. 
+    - For projects more focused on building data-driven applications, we will use `pip` and `poetry`.
+    - We can use `conda` just for virtual environments and not for package management and dependency resolution / tracking.
+    - Therefore, one has to pick an optimal approach for each project. Not great, but could be worse (as in `npm`)
+- Read this old, but still relevant blog post about ["Conda: Myths and Misconceptions"](https://jakevdp.github.io/blog/2016/08/25/conda-myths-and-misconceptions/)
+- Read these two introductory articles on modules and packages
+    - [Absolute vs Relative imports](https://realpython.com/absolute-vs-relative-python-imports/) by Mbithe Nzomo
+    - [Python Modules and Packages – An Introduction](https://realpython.com/python-modules-packages/) by John Sturtz
+- IMPORTANT! For those of you working on Windows 10/11, here's the best set-up I know of, which involves WSL2. [Here are the instructions](https://towardsdatascience.com/how-to-create-perfect-machine-learning-development-environment-with-wsl2-on-windows-10-11-2c80f8ea1f31)
+
 
 # Module 0: Prerequisites
 # The philosophy v2
