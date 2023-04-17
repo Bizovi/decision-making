@@ -107,14 +107,8 @@ def plot_passengers(df: pd.DataFrame, p_showup=0.85) -> None:
        ax.annotate("low risk!", xytext=(-0.33, 0.05), xy = (0, 0.02))
        ax.annotate("call couples \nthe day before", xytext=(1.4, 0.16), xy = (1.5, 0.15))
 
-    #    ax.tick_params(bottom='on', labelbottom='on')
-
-    #    ax.xaxis.tick_bottom()
        ax.set_xticks(range(0, 4))
        ax.yaxis.grid(True, color="lightgrey", linestyle="--")
 
        ax.set_ylabel("Probability of outcome (PMF)")
-    #    fig.set_facecolor("white")
-       ax.legend(loc='best', frameon=False) #, ncol = 1, bbox_to_anchor=(1.3, 0.6), )
-
-    #    ax.set_facecolor("white")
+       ax.legend(loc='best', frameon=False)
