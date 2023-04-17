@@ -76,9 +76,13 @@ A few important ideas to add to your conceptual understanding:
 |**(Fig.7) - The greatest theorem never told** adapted and refactored [from CamDavidson](https://nbviewer.org/github/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter4_TheGreatestTheoremNeverTold/Ch4_LawOfLargeNumbers_PyMC3.ipynb) (upcoming!)|**(Fig.8) - Conjugate priors and the idea of Bayesian updating**. Full luxury bayes: automatic sampling, thoughtful modeling
 
 
-## Lecture 5: Generalized Linear Madness (upcoming ...)
+## Lecture 5: A/B Testing and Generalized Linear Madness
 
-## Lecture 6: A/B Testing and Causal Inference (upcoming ...)
+|![DAGs](docs/img/ab_test.png)| ![Beta-Binomial](docs/img/hierarchical.svg)| 
+|:--:|:--:|
+|**(Fig.9) - BetaBinomial model for A/B testing.** We will see what are the necessary steps for designing an experiment. |**(Fig.10) - The centrality of linear models**. In the bayesian version, it will be our go-to model for many applications.
+
+## Lecture 6: GLM's and Causal Inference (upcoming ...)
 
 
 | ![Probability Tree](docs/img/L4_basic_dags.svg)| 
