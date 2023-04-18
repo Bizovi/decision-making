@@ -4,6 +4,8 @@
   edition: 3
   author: Andrew Gelman
   year: 2013
+  link: http://www.stat.columbia.edu/~gelman/book/
+  lectures: https://avehtari.github.io/BDA_course_Aalto/Aalto2022.html
 
   chapters:
   - number: 1
@@ -26,6 +28,18 @@
     use_cases:
     - name: kidney cancer rates by states
       data: provided in bda3 website
+  - name: beta-binomial
+    chapter_number: 2
+    use_cases:
+    - name: probability of female birth
+      data: from earlier studies and literatures
+    - name: share of very liberal in 2008 elections, exercise 21
+      data: polling, provided in bda3 website
+  - name: prior-choice
+    chapter_number: 2
+    use_cases:
+    - name: free-throw training programm, exercise 22
+      data: simulated, hypothetical
 
 
 - title: Statistical Rethinking
@@ -34,6 +48,8 @@
   edition: 2
   author: Richard McElreath
   year: 2021
+  link: https://xcelab.net/rm/statistical-rethinking/
+  lectures: https://github.com/rmcelreath/stat_rethinking_2023
 
 
 - title: Bayesian Methods for Hackers
@@ -42,6 +58,8 @@
   edition: 1
   author: Cameron Davidson
   year: 2015
+  link: https://dataorigami.net/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/
+  github: https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers 
 
   chapters:
   - number: 2
@@ -74,6 +92,7 @@
   type: article
   author: Howard Wainer
   year: 2009
+  link: http://assets.press.princeton.edu/chapters/s8863.pdf
   tools:
   - name: clt
     use_cases:
@@ -89,6 +108,8 @@
   edition: 2
   author: Joe Blitzstein
   year: 2019
+  link: https://projects.iq.harvard.edu/stat110/home
+  lectures: https://projects.iq.harvard.edu/stat110/youtube
 
   chapters:
   - number: 2
