@@ -1,0 +1,102 @@
+- title : Bayesian Data Analysis
+  title_short: bda3
+  type: book
+  edition: 3
+  author: Andrew Gelman
+  year: 2013
+
+  chapters:
+  - number: 1
+    name: Probability and Inference
+  - number: 2
+    name: Single-parameter models
+  
+  tools:
+  - name: bayes-theorem
+    chapter_number: 1
+    use_cases: 
+    - name: football spreads, estimating from data
+      data: provided in bda3 website
+    - name: mendelian genetics
+      data: simulated
+    - name: spelling correction
+      data: simulated, but maybe can be found
+  - name: gamma-poisson
+    chapter_number: 2
+    use_cases:
+    - name: kidney cancer rates by states
+      data: provided in bda3 website
+
+
+- title: Statistical Rethinking
+  title_short: rethinking
+  type: book
+  edition: 2
+  author: Richard McElreath
+  year: 2021
+
+
+- title: Bayesian Methods for Hackers
+  title_short: bmh
+  type: book
+  edition: 1
+  author: Cameron Davidson
+  year: 2015
+
+  chapters:
+  - number: 2
+    name: A little more on PyMC3
+  - number: 4
+    name: The greatest equation never told
+
+  tools:
+  - name: lln
+    chapter_number: 4
+    use_cases:
+    - name: reddit rankings by lower bound
+      data: scraped via praw, up and downvotes
+  - name: beta-binomial
+    chapter_number: 2
+    use_cases:
+    - name: A/B testing for proportions
+      data: simulated
+    - name: Wilson and Agresti-Coull intervals
+      data: reddit upvotes
+  - name: gamma-poisson
+    chapter_number: 2
+    use_cases:
+    - name: Count data with a changepoint
+      data: text messages -- but would need to find better one
+
+
+- title: The Most Dangerous Equation
+  title_short: danger-eqn
+  type: article
+  author: Howard Wainer
+  year: 2009
+  tools:
+  - name: clt
+    use_cases:
+    - name: US Schools performance given nr_students
+      data: From Brazil EMEA, in Causal Inference for the Brave and True; US?
+    - name: Quality control of roman coins
+      data: simulate any quality control process
+
+
+- title : Introduction to Probability
+  title_short: probability-blitzstein
+  type: book
+  edition: 2
+  author: Joe Blitzstein
+  year: 2019
+
+  chapters:
+  - number: 2
+    name: Conditional Probability
+  
+  tools:
+  - name: bayes-theorem
+    chapter_number: 2
+    use_cases: 
+    - name: medical testing example
+      data: simulated, hypothetical
