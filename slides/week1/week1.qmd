@@ -104,9 +104,19 @@ This is the course I wish I had when getting started in the field.
 
 ## Principle nr. 1
 
-::: {style="font-size:80px"}
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {style="font-size:60px"}
 Contemplating in the library, engineering in the trenches
 :::
+:::
+
+::: {.column width="40%"}
+![*DALL-E helps with storytelling and visuals across the deck*](img/gap_theory_practice.png){width="90%"}
+:::
+::::
+
 
 ::: {.aside}
 Dreyfus Model [@hunt2008pragmatic], Learning how to Learn [@oakley2018learning]
@@ -114,9 +124,20 @@ Dreyfus Model [@hunt2008pragmatic], Learning how to Learn [@oakley2018learning]
 
 ## Principle nr. 2
 
-::: {style="font-size:80px"}
+
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {style="font-size:60px"}
 We'll go a long, long way by mastering the fundamentals
 :::
+:::
+
+::: {.column width="40%"}
+![True for music, painting, sports, math, business, even GenAI](img/learning_fundamentals.png){width="90%"}
+:::
+::::
+
 
 ::: {.aside}
 A virtuoso violonist does the scales masterfully
@@ -150,9 +171,19 @@ All of the above is useless without being used in software products or implement
 
 ## Principle nr. 4
 
-::: {style="font-size:80px"}
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {style="font-size:60px"}
 We weave a golden thread connecting disciplines
+
 :::
+:::
+
+::: {.column width="40%"}
+![Encouragement: what you studied is actually useful!](img/golden-thread.png){width="90%"}
+:::
+::::
 
 ::: {.aside}
 Choose the appropriate level of analysis and the practically useful tools and ideas
@@ -186,9 +217,20 @@ We often get an answer to a different question, not the one asked
 
 ## Principle nr. 6
 
-::: {style="font-size:80px"}
+
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {style="font-size:60px"}
 Calling Bullshit: reasoning and critical thinking
 :::
+:::
+
+::: {.column width="40%"}
+![Advertisement is a prime example. It makes stuff supersalient](img/bullshit_advertisement.png){width="90%"}
+:::
+::::
+
 
 ::: {.aside}
 H. Frankfurt - Responsibility to call out BS and not generate more
@@ -274,6 +316,27 @@ When using those products, how do you think those systems were designed?
 ![**Big picture** course, how it all fits together and how it is done in practice to be useful for firms](img/elephant-blind.jpeg "Big Picture"){width="40%"}
 :::
 
+
+## Model = simplified representation
+
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {style="font-size:60px"}
+All models are wrong, but some are useful
+:::
+:::
+
+::: {.column width="40%"}
+![Never forget model limitations and assumptions!](img/messy_essence.png){width="90%"}
+:::
+::::
+
+::: {.aside}
+Models are also golemns (of Prague)
+:::
+
+
 ## What we'll cover for sure
 
 - **Business Economics**: the real firms, not theory
@@ -319,9 +382,18 @@ Original and risky projects will be highly rewarded, even if not successful or f
 
 ## Principle nr. 7
 
-::: {style="font-size:80px"}
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {style="font-size:60px"}
 There is too much content about data science
 :::
+:::
+
+::: {.column width="40%"}
+![Where do you even begin?](img/too_much_info.png){width="90%"}
+:::
+::::
 
 ::: {.aside}
 Lots of it is just bad, but there is too much good stuff 🤷🏻‍♀️

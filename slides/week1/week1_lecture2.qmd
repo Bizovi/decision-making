@@ -75,9 +75,18 @@ What is the optimal tradeoff between objectives? In which part of value chain sh
 
 ## Principle nr. 8
 
-::: {style="font-size:80px"}
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {style="font-size:60px"}
 What is true and how should I act?
 :::
+:::
+
+::: {.column width="40%"}
+![You should have those questions in mind not just at the job](img/making_choices.png){width="90%"}
+:::
+::::
 
 ::: {.aside}
 More nuanced: likely, plausible, with convergent evidence. "Seeing clearly"
@@ -126,10 +135,18 @@ First ask, understand, contribute. Challenge if situation allows.
 
 ## Principle nr. 10
 
-::: {style="font-size:80px"}
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {style="font-size:60px"}
 Don't get too enamored with exploratory data analysis
 :::
+:::
 
+::: {.column width="40%"}
+![EDA is essential, but do it mindfully -- don't jump to conclusions](img/inspiration.png){width="90%"}
+:::
+::::
 ::: {.aside}
 Data Scientists often forget about outcomes and actions / interventions
 :::
@@ -329,6 +346,23 @@ Everyone deals with data, even BE, FE, Decision-Makers, QA, DevOPS, domain exper
     - start with simplest models
     - deal with messy data and introduce more realism
 
+## Learning is never linear
+
+
+:::: {.columns}
+
+::: {.column width="60%"}
+::: {style="font-size:60px"}
+We circle and come back to an idea until it really makes sense
+:::
+:::
+
+::: {.column width="40%"}
+![There is no shame in going back to basics -- there is so much to appreciate](img/learning_to_learn.png)
+:::
+::::
+
+
 
 ## The danger of thinking in buckets
 
@@ -344,14 +378,32 @@ Here is R. Sapolsky's argument about studying different aspects of human behavio
 
 ## We'll walk across many buckets
 
-- Problem space: the CAS of a firm, but not only
-- Cognitive science: intelligence, rationality, foolishness
-- Probability Theory: Reason under uncertainty, DAGs, DGPs
-- Statistics: formulating hypotheses, experiment design
-- Machine Learning: next year we focus on predictions
-- Computer Science: how to make the stuff usable
-- Philosophy: ethics, epistemiology, phil. science
-- Mathematics: elegant abstractions and tools
+- **Problem space**: the CAS of a firm, but not only
+- **Cognitive science**: intelligence, rationality, foolishness
+- **Probability Theory**: Reason under uncertainty, DAGs, DGPs
+- **Statistics**: formulating hypotheses, experiment design
+- **Machine Learning**: next year we focus on predictions
+- **Computer Science**: how to make the stuff usable
+- **Philosophy**: ethics, epistemiology, phil. science
+- **Mathematics**: elegant abstractions and tools
+
+## And take short trips and detours
+
+:::: {.columns}
+
+::: {.column width="40%"}
+::: {style="font-size:50px"}
+- Pedagogical
+- Industrial
+- Always come back home to problem-solving
+:::
+:::
+
+::: {.column width="60%"}
+![](img/map_dsc.png)
+:::
+::::
+
 
 <!-- 
 ## Newsvendor Problem
