@@ -1,13 +1,20 @@
 ---
 title: "Decision Science"
+title-slide-attributes:
+  data-background-image: img/logo.jpeg
+  data-background-size: "30%"
+  data-background-position: "bottom left"
+  data-background-opacity: "0.3"
+
 subtitle: "1. Introduction and Course Overview"
 author: "Mihai Bizovi"
-institute: "Head of Data Science @AdoreMe"
+institute: "Head of Data Science \\@AdoreMe"
 date: "8 Dec, 2023"
 format:
   revealjs:
     incremental: false   
     slide-number: true
+bibliography: references.bib
 ---
 
 ## A long and rewarding journey
@@ -30,7 +37,11 @@ format:
 :::
 
 ::: {.column width="40%"}
-![You will learn how to havigate the complexities of the field and choose your path -- according to your aspirations](img/journey.jpg)
+
+
+
+![Navigate the complexities of the field and choose your path. *(Source: Generated with DALL-E)*](img/dalle_garden_forking_paths.png) 
+
 :::
 ::::
 
@@ -38,15 +49,15 @@ format:
 ## You meant "data science"?
 - Confusing umbrella term, but for sure interdisciplinary
 - Excitement about the potential of Analytics, Big Data, Data Mining, ML/DL/AI, Generative AI:
-	- to improve the business outcomes 
+	- to improve the business outcomes 🚀
 	- be at the core of business models in themselves
 	- therefore, the hype of "sexiest job"
 - These technologies are pervasive
   - ethical concerns about AI misuse in tech/gov
-  - concerns about how we do Stats, ML, AI today
+  - concerns about how we do Stats, ML, AI today 😈
 
 ## Decision Science -- explicit goal
-- Focused on Decision-Making Under Uncertainty at Scale
+- Focused on **Decision-Making Under Uncertainty at Scale**
 - For that, we need insights and tools from:
 	- **Applied mathematics**: Linear Algebra, Prob/Stats, ...
 	- **Computer Science**: Numerical methods, Optimization, ...
@@ -54,18 +65,6 @@ format:
 	- Cognitive Science, Cybernetics, Philosophy, ...
 
 > This reframing makes the learning roadmap much more clear and actionable -- coherent set of tools, methods, ideas 
-
-
-## Slogans
-> Contemplating in the library, engineering in the trenches
-
-> We'll go a long, long way by mastering the fundamentals
-
-> We weave a golden thread connecting disciplines
-
-> Data Science is the art of solving the wrong problem
-
-> Calling Bullshit: reasoning and critical thinking
 
 
 ## The gap between theory and practice
@@ -91,6 +90,7 @@ This is the course I wish I had when getting started in the field.
 
 :::: {.column}
 ::: {.callout-tip}
+
 ## Contemplating in the library
 - Cultivating understanding and insight into *fundamental theoretical ideas*
 - Understanding your domain & clients
@@ -100,6 +100,38 @@ This is the course I wish I had when getting started in the field.
 :::
 ::::
 :::::
+
+
+## Principle nr. 1
+
+::: {style="font-size:80px"}
+Contemplating in the library, engineering in the trenches
+:::
+
+::: {.aside}
+Dreyfus Model [@hunt2008pragmatic], Learning how to Learn [@oakley2018learning]
+:::
+
+## Principle nr. 2
+
+::: {style="font-size:80px"}
+We'll go a long, long way by mastering the fundamentals
+:::
+
+::: {.aside}
+A virtuoso violonist does the scales masterfully
+:::
+
+## Principle nr. 3
+
+::: {style="font-size:80px"}
+Do not confuse a tool with the end goal: Content $\ne$ Process
+:::
+
+::: {.aside}
+Knowing how to perform a t-test is different from designing an experiment
+:::
+
 
 
 ## Why did you learn all of that?
@@ -115,6 +147,19 @@ This is the course I wish I had when getting started in the field.
 All of the above is useless without being used in software products or implemented in code! It should be very clear why you needed those CS courses.
 ::: 
 
+
+## Principle nr. 4
+
+::: {style="font-size:80px"}
+We weave a golden thread connecting disciplines
+:::
+
+::: {.aside}
+Choose the appropriate level of analysis and the practically useful tools and ideas
+:::
+
+
+
 ## But why? Business environment!
 
 > VUCA: Volatile | Uncertain | Complex | Ambiguous
@@ -129,8 +174,29 @@ All of the above is useless without being used in software products or implement
 
 
 
+## Principle nr. 5
+
+::: {style="font-size:80px"}
+Data Science is the art of solving the wrong problem
+:::
+
+::: {.aside}
+We often get an answer to a different question, not the one asked
+:::
+
+## Principle nr. 6
+
+::: {style="font-size:80px"}
+Calling Bullshit: reasoning and critical thinking
+:::
+
+::: {.aside}
+H. Frankfurt - Responsibility to call out BS and not generate more
+:::
+
+
 ## ~whoami: as engineer and leader
-- Skin in the game: Head of data science @AdoreMe (VS)
+- Skin in the game: Head of data science \@AdoreMe (VS)
 - AI strategy, decision-making, ML systems design
 - Statistics, ML/Data engineering, Full stack data apps
 - Critical applications along the value chain: 
@@ -156,10 +222,12 @@ Why such systems are needed? Watch this video about Target's disaster launch in 
 ## ~whoami: as a person
 - Cultivating wisdom -- philosophy as a way of life
 - Participating in meaningful friendships
-- Painting, hiking, coffee
+- Painting, hiking, coffee, 14 years of pro-ish chess
 - Art appreciation: blues, jazz, indie, opera, cinema
-- How it fits together: synoptic integration
+- Reading: Cognitive Science, Evolution, Economics
+- How it fits together: synoptic integration [^synoptic]
 
+[^synoptic]: synoptic is to take the best of multiple perspectives, reduce conflict and contradiction -- then see where the evidence converges
 
 
 ## Conversation: fields & use-cases
@@ -179,7 +247,7 @@ When using those products, how do you think those systems were designed?
 
 ## The easiest and most difficult course
 
- > “It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of light, it was the season of darkness, it was the spring of hope, it was the winter of despair.” ― Charles Dickens, [A Tale of Two Cities](https://www.goodreads.com/work/quotes/2956372)
+ > “It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of light, it was the season of darkness, it was the spring of hope, it was the winter of despair.” ― A Tale of Two Cities, [@dickens], 
 
 
 - No memorization, proofs or solving on paper
@@ -248,9 +316,28 @@ Original and risky projects will be highly rewarded, even if not successful or f
   - paper, book, course, podcast
 - What are your aspirations and goals for the carreer?
 
-## Too much content
-- narrowed down selection of resources, which is still very wide, years and years worth of study (curated resources)
-- roadmap and conceptual frame to navigate by yourself
-- no shortcuts, patience needed
-- advice; master fundamentals (opinionated on which ones are those)
 
+## Principle nr. 7
+
+::: {style="font-size:80px"}
+There is too much content about data science
+:::
+
+::: {.aside}
+Lots of it is just bad, but there is too much good stuff 🤷🏻‍♀️
+:::
+
+## Too much content
+- Curated selection of excellent resources
+  - Still, years' worth of study
+- Roadmap and conceptual frame to navigate by yourself
+  - Choose what is relevant for your problem
+  - Come back to a topic with greater understanding later
+- No shortcuts that work, patience needed
+- Master fundamentals (opinionated on how)
+
+
+## References
+
+::: {#refs}
+:::

@@ -133,3 +133,5 @@ dmypy.json
 **/*.env
 
 **/.idea/
+
+**/**_files/
