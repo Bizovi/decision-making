@@ -136,3 +136,5 @@ dmypy.json
 
 **/**_files/
 **/week1_lecture2.html
+
+*.html

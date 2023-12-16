@@ -1,0 +1,49 @@
+---
+title: "Birthday Paradox"
+format: html
+---
+
+## Birthday paradox 
+
+
+```{r}
+nr_people <- 25 
+
+simulate_birthdays <- function(nr_people, nr_sim = 10000) {
+	birthday_events <- replicate(n = nr_sim, {
+		birthdays <- sample(x = 1:365, size = nr_people, replace = TRUE)
+		anyDuplicated(birthdays) > 0
+	})
+	mean(birthday_events)  # this returns implicitly!
+}
+
+pr_same_bday <- simulate_birthdays(nr_people)
+bday_match_size <- sapply(2:90, simulate_birthdays, nr_sim = 10000)
+
+```
+
+```{r}
+par(mar = c(3, 3, 2, 1), # Dist' from plot to side of page
+    mgp = c(2, 0.4, 0), # Dist' plot to label
+    las = 1, # Rotate y-axis text
+    tck = -.01, # Reduce tick length
+    xaxs = "i", yaxs = "i") # Remove plot padding
+
+plot(
+	x = 2:90, y = bday_match_size, 
+	type = "l", lty = 1, lwd = 5,
+	xlab = "", ylab = "", # Labels
+	axes = FALSE, # Don't plot the axes
+	frame.plot = FALSE, # Remove the frame
+	xlim = c(0, 80), ylim = c(0, 1), # Limits
+	panel.first = abline(h = seq(0, 1, 0.25), col = "grey80")
+)
+segments(49, bday_match_size[50], 49, 0)
+
+at <- pretty(2:90)
+mtext(side = 1, text = at, at = at,
+      col = "grey20", line = 1, cex = 0.9)
+at = pretty(bday_match_size)
+mtext(side = 2, text = at, at = at, col = "grey20", line = 1, cex = 0.9)
+```
+
