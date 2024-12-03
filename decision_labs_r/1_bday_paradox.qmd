@@ -1,0 +1,128 @@
+---
+title: "Birthday Paradox"
+format: html
+---
+
+## Birthday paradox
+
+Find your colleagues near you, discuss for 3 minutes. 
+Give your best guess for a range of n (+- 10%) for which the chance would be 50%.
+
+If you know the pigeonhole principle and a math trick, you could derive it analytically. 
+Then, get a sense of the curve with a quick plot.
+
+```{r load-packages}
+library(tidyverse)
+```
+
+
+```{r analytical-solution}
+#| fig-cap: "Analytical solution"
+
+sim <- tibble(
+    nr_people = 2:70,
+    prob = sapply(2:70, \(x) 1 - prod((366 - 1:x) / 365))
+)
+
+prob_half <- sim |> 
+    mutate(diff = abs(0.5-prob)) |> 
+    arrange(diff) |> first()
+
+prob_half
+```
+
+It takes a lot of effort to do a nice plot in base R. 
+On the bright side, you have no dependencies.
+
+```{r plotting}
+par(# mar = c(3, 3, 3, 3),  # Dist' from plot to side of page
+    mgp = c(3, 1, 0),       # Dist' plot to label
+    las = 1,                # Rotate y-axis text
+    tck = -.01,             # Reduce tick length
+    xaxs = "i", yaxs = "i"  # Remove plot padding
+) 
+
+plot(
+    x = sim$nr_people, y = sim$prob, type = "l", 
+    ylab = "Prob. of match", xlab = "nr. people", lwd=3,
+    main = paste0(
+        "Only ", prob_half$nr_people, " people for a ", 
+        round(prob_half$prob * 100, 1), "% chance of matching bday"
+    ),
+    axes = FALSE, # Don't plot the axes
+	frame.plot = FALSE, # Remove the frame
+	xlim = c(0, 70), ylim = c(0, 1), # Limits
+	panel.first = abline(h = seq(0, 1, 0.25), col = "grey80")
+)
+segments(
+    x0 = prob_half$nr_people, y0 = 0, 
+    x1 = prob_half$nr_people, y1 = prob_half$prob,
+    lty="dashed"
+)
+segments(
+    x0 = 0, y0 = prob_half$prob, 
+    x1 = prob_half$nr_people, y1 = prob_half$prob, 
+    lty="dashed"
+)
+at <- pretty(sim$nr_people)
+axis(side = 1, at = at, col = "grey40", line = 1, cex = 0.7)
+at <- seq(0, 1, 0.25)
+mtext(side = 2, text = at, at = at, col = "grey40", line = 1, cex = 0.9)
+```
+
+In reality, the math could be too complex or we don't even know where to start.
+Let's try it with base R
+
+```{r sim-base-r}
+nr_people <- 25 
+
+simulate_birthdays <- function(nr_people, nr_sim = 10000) {
+	birthday_events <- replicate(n = nr_sim, {
+		birthdays <- sample(x = 1:365, size = nr_people, replace = TRUE)
+		anyDuplicated(birthdays) > 0
+	})
+	mean(birthday_events)  # this returns implicitly!
+}
+
+pr_same_bday <- simulate_birthdays(nr_people)
+bday_match_size <- sapply(2:90, simulate_birthdays, nr_sim = 10000)
+```
+
+
+Then a totally different way of doing it with same results: tidyverse.
+
+```{r sim-tidy}
+summarised <- tidyr::crossing(
+        people = seq(2, 60, 2), 
+        trial  = 1:10000,
+    ) |>
+    dplyr::mutate(
+        birthday = purrr::map(people, \(x) sample(365, x, replace = TRUE)), 
+        multiple = purrr::map_lgl(birthday, \(x) any(duplicated(x)))
+    ) |>
+    dplyr::group_by(people) |>
+    dplyr::summarise(chance = mean(multiple)) |>
+    dplyr::mutate(
+        # sapply would work too here
+        analytical_solution = purrr::map_dbl(people, \(x) 1 - prod((366 - 1:x) / 365))
+    )
+
+# Visualizing the probability
+ggplot(summarised) +
+    geom_line(aes(people, chance)) +
+    geom_line(aes(people, analytical_solution), lty="dashed", color = "darkred") + 
+    scale_y_continuous(labels = scales::percent_format()) +
+    labs(y = "Prob. matching birthday", x = "nr. people") + 
+    theme_minimal()
+```
+
+
+## Applications 
+
+- Hash collision, quick and dirty approximation for satellite collision
+- Related problem -- partition problem (weights on 2 scales), balance them: e.g. Dota / MMR
+
+
+
+
+

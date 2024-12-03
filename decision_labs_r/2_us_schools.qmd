@@ -1,0 +1,112 @@
+---
+title: "The most dangerous equation"
+format: html
+---
+
+```{r import-libraries}
+#| output: false
+
+library(tidyverse)
+set.seed(1234)
+```
+
+
+## Simulated data
+
+```{r}
+nr_stud_small <- 90 
+nr_stud_big <- 400
+
+nr_small_schools <- 500
+nr_big_schools <- 100
+
+simulate_schools <- function(n_small, n_stud_small, n_big, n_stud_big) {
+    # An alternative approach would be with matrices or cross()
+    
+    small_scores <- replicate(n_small, { rnorm(n_stud_small) |> mean() })
+    big_scores   <- replicate(n_big,   { rnorm(n_stud_big)   |> mean() })
+    
+    df <- bind_rows(
+        tibble(
+          scores  = small_schools_scores, 
+          nr_stud = n_stud_small, 
+          school_type = "small"
+        ),
+        tibble(
+              scores  = big_schools_scores, 
+              nr_stud = n_stud_big, 
+              school_type = "big"
+        ) 
+    )
+    df
+}
+
+df <- simulate_schools(
+    nr_small_schools, nr_stud_small, 
+    nr_big_schools, nr_stud_big
+)
+
+df |> head()
+```
+
+```{r plot-scores}
+df %>% 
+  ggplot(aes(x = scores, color = school_type)) + 
+  geom_density() + 
+  theme_minimal()
+```
+
+
+## US Schools and CLT
+
+```{r}
+df_scores <- readr::read_csv("data/enem_scores.csv") |> 
+  mutate(date = as.Date(paste0(year, "-01-01")))
+
+df_scores |>
+  arrange(desc(avg_score)) |> 
+  head(10)
+```
+
+```{r}
+df_scores |>
+  filter(year != 2005) |>
+  group_by(school_id) |>
+  summarise(
+    number_of_students = mean(number_of_students, na.rm = TRUE),
+    avg_score = mean(avg_score, na.rm = TRUE)
+  ) |>
+  mutate(top = avg_score > quantile(avg_score, 0.975)) |>
+  ggplot(aes(number_of_students, avg_score)) +
+  geom_point(aes(color = top)) +
+  theme_minimal() + 
+  labs(
+    x = "Number of students",
+    y = "Average Score", 
+    title = "ENEM Scores by School Size",
+    subtitle = "Fooled by small sample sizes"
+  )
+```
+
+```{r}
+df_scores |>
+  filter(year == 2005) |>
+  ggplot(aes(number_of_students)) + 
+    geom_histogram() + 
+    theme_minimal()
+```
+
+```{r}
+df_scores |>
+  filter(year == 2005) |>
+  ggplot(aes(avg_score)) + 
+    geom_density(stat = "density", fill = "darkred", alpha = 0.4) + 
+    theme_minimal()
+```
+
+
+
+
+
+
+
