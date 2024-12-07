@@ -1,32 +1,9 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import graphviz as gr
 import arviz as az
 
 az.style.use("arviz-grayscale")
-
-
-def plot_causal_graph() -> None:
-    """A low-resolution influence graph, a story of how people show up"""
-    g = gr.Digraph()
-
-    with g.subgraph(name='cluster_1') as c:
-        c.attr(label='1:nr_trips')
-        c.edges([
-            ("X2", "X3"),    ("X3", "Y mix"), ("X2", "Y mix"), 
-            ("X1", "Y ind"), ("Y ind", "Y"),  ("Y mix", "Y" ),
-        ])
-        c.node("X3", color="lightblue", style='filled')
-        c.node("X1", color="lightblue", style='filled')
-
-    g.node("pr_showup", fillcolor="lightgrey", style="filled")
-    g.edge("pr_showup", "Y ind")
-    g.edge("pr_showup", "Y mix")
-
-    g.node("share\ncouples", fillcolor="lightgrey", style="filled")
-    g.edge("share\ncouples", "X2")
-    return g
 
 
 def compute_nr_passengers(
@@ -49,7 +26,7 @@ def compute_nr_passengers(
         * seed: to ensure reproducibility
 
     Returns: pd.DataFrame with the following columns
-        * third_wheel: whether there is a couple making a reservation  
+        * has_couple: whether there is a couple making a reservation  
         * y_individuals: number of individuals who show up if reserved independently
         * y_mix: number of individuals who show when a couple made reservation
         * nr_show_up: final number of individuals who show up
@@ -57,18 +34,19 @@ def compute_nr_passengers(
     rng = np.random.default_rng(seed=seed)
     p_couple_reservation = (1 - (1 - p_couple)**2)
     df = pd.DataFrame({
-        "third_wheel": rng.binomial(1, p_couple_reservation, size=nr_samples), 
-        "y_individuals": rng.binomial(n=3, p=p_showup, size=nr_samples), 
-        "y_mix": (
+        "has_couple": rng.binomial(n=1, p=p_couple_reservation, size=nr_samples),      
+    }).assign(
+        y_mix = lambda df_: df_.has_couple * (
             rng.binomial(1, p_couple_reservation, size=nr_samples) + 
             2 * rng.binomial(1, p_showup**2, size=nr_samples)
         )
-    }).assign(
-        nr_show_up = (
-            lambda df_: 
-            df_.third_wheel*df_.y_mix + 
-            (1 - df_.third_wheel) * df_.y_individuals
+    ).assign(
+        y_individual = lambda df_: (
+            (1 - df_.has_couple) * 
+            rng.binomial(3, p_couple_reservation, size=nr_samples)
         )
+    ).assign(
+        nr_show_up = lambda df_: df_.y_mix + df_.y_individual
     )   
     return df
 
@@ -79,7 +57,7 @@ def plot_passengers(df: pd.DataFrame, p_showup=0.85) -> None:
        
         Arguments:
             * df: pd.DataFrame with the following columns
-                * third_wheel: whether there is a couple making a reservation  
+                * has_couple: whether there is a couple making a reservation  
                 * y_individuals: number of individuals who show up if reserved independently
                 * y_mix: number of individuals who show when a couple made reservation
                 * nr_show_up: final number of individuals who show up

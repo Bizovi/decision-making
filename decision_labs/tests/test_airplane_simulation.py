@@ -1,5 +1,5 @@
 import pytest
-from simulation.airplane import compute_nr_passengers
+from decision_labs.airplane import compute_nr_passengers
 
 
 def test_dataframe_contract():
@@ -12,7 +12,7 @@ def test_dataframe_contract():
     # Validate / Test
     assert df.shape[0] == nr_samples
     assert df.shape[1] == 4
-    assert set(df.columns) == {"third_wheel", "y_individuals", "y_mix", "nr_show_up"}
+    assert set(df.columns) == {"has_couple", "y_individual", "y_mix", "nr_show_up"}
 
 
 def test_wrong_input_parameter_raises_value_error():
