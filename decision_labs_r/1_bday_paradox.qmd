@@ -13,6 +13,7 @@ Then, get a sense of the curve with a quick plot.
 
 ```{r load-packages}
 library(tidyverse)
+library(viridisLite)
 ```
 
 
@@ -116,12 +117,157 @@ ggplot(summarised) +
     theme_minimal()
 ```
 
-
-## Applications 
+Some possible applications:
 
 - Hash collision, quick and dirty approximation for satellite collision
 - Related problem -- partition problem (weights on 2 scales), balance them: e.g. Dota / MMR
 
+
+## Airplane Example
+
+```{r}
+set.seed(13131)
+
+prevalence_couples <- 0.6
+prob_couple <- 0.6 + 0.4 * 0.6  # (1 - (1 - 0.6)**2)
+prob_showup <- 0.85
+
+# validate final proportion of couples and individuals
+replicate(n = 10000, {
+    first <- ifelse(rbinom(1, 1, prevalence_couples) == 1, "CC", "I")
+    second <- ifelse(first == "CC", "", ifelse(rbinom(1, 1, prevalence_couples) == 1, "CC", "I"))
+    third <- ifelse(second == "I", "I", "")
+    paste0(first, second, third)
+}) |> grepl(pattern = "C") |> table() / 10000
+```
+
+```{r}
+simulate_customers <- function(
+    prevalence_couples = 0.6,
+    prob_showup = 0.85,
+    nr_sim = 10000
+) {
+    prob_couple <- prevalence_couples + (1 - prevalence_couples) * prevalence_couples  # (1 - (1 - 0.6)**2)
+
+    replicate(n = 10000, {
+        has_couple <- rbinom(1, 1, prob_couple)
+        y_ind <- rbinom(1, 3 - 2*has_couple, prob_showup)
+        y_mix <- has_couple * 2 * rbinom(1, 1, prob_showup^2)
+        y_ind + y_mix
+    }) |> table() / 10000
+}
+
+simulate_customers()
+```
+
+```{r}
+tibble(
+    prevalence_couples = seq(0, 1, 0.01),
+    prob_couple = prevalence_couples + (1 - prevalence_couples) * prevalence_couples
+) |> 
+    ggplot(aes(x = prevalence_couples, y = prob_couple)) + 
+    geom_line() + 
+    labs(x = "Prevalence of couples", y = "Probability couple makes reservation") + 
+    theme_minimal()
+```
+
+
+```{r}
+tibble(
+    has_couple = rbinom(10000, 1, prob_couple),
+    nr_individ = 3 - 2*has_couple,
+    y_ind = purrr::map_int(nr_individ, \(x) rbinom(1, x, prob_showup)),
+    y = y_ind + has_couple * 2 * purrr::map_int(has_couple, \(x) rbinom(1, 1, prob_showup^2)),
+    model = "mixed"
+) |> 
+    select(y, model) |>
+    rbind(tibble(
+        y = rbinom(10000, 3, prob_showup),
+        model = "binom"
+    )) |>
+    group_by(model) |>
+    count(y) |>
+    mutate(prob = n / sum(n)) |>
+    ggplot(aes(x = y, y = prob, fill = model)) + 
+    geom_col(position = "dodge") + 
+    labs(x = "Number of people showing up", y = "Proportion") +
+    scale_fill_viridis_d(option = "E") + 
+    scale_y_continuous(labels = scales::percent_format()) + 
+    theme_minimal()
+```
+```{r}
+set.seed(11131)
+prob_grid <- seq(0, 1, 0.02)
+sapply(
+    prob_grid, 
+    FUN = \(x) simulate_customers(prevalence_couples = x, prob_showup = 0.85, nr_sim = 10000)
+) |> t() |> data.frame() |> tibble() |>
+    mutate(
+        prevalence = prob_grid,
+        expect = 0 * X0 + 1 * X1 + 2 * X2 + 3 * X3,
+        variance = (0^2*X0 + 1^2*X1 + 2^2*X2 + 3^2*X3) - expect ^2,
+        loss_due_couples = expect - max(expect),
+        loss_upper = loss_due_couples + 2 * sqrt(variance / 10000),
+        loss_lower = loss_due_couples - 2 * sqrt(variance / 10000)
+    ) |>
+    ggplot(aes(x = prevalence, y = loss_due_couples)) + 
+    geom_point(color = "darkred") +
+    geom_segment(aes(
+        y = loss_lower, yend = loss_upper, 
+        x = prevalence, xend = prevalence
+    )) +
+    labs(x = "Prevalence of couples", y = "Expected loss w.r.t. independece") + 
+    theme_minimal()
+```
+
+
+## Law of large numbers
+
+```{r}
+set.seed(137) # careful when setting seed to even number
+nr_sim_pois <- 100000
+lln_pois <- replicate(n = 3, {
+    pois_sim <- rpois(nr_sim_pois, 4.5)
+    seq(10, nr_sim_pois, 30) |> 
+    sapply(\(x) pois_sim[1:x] |> mean())
+}) |> data.frame() |> tibble()
+
+lln_pois |>
+    mutate(nr_samples = 10 + row_number() * 30) |> 
+    pivot_longer(cols = c("X1", "X2", "X3")) |> 
+    mutate(name = case_when(
+        name == "X1" ~ "sim. 1",
+        name == "X2" ~ "sim. 2",
+        name == "X3" ~ "sim. 3"
+    )) |>
+    filter(nr_samples > 60 & nr_samples < 20000) |>
+    ggplot(aes(x = nr_samples, y = value, col = name)) + 
+    geom_line() + 
+    geom_hline(yintercept = 4.5, lty = "dashed") + 
+    scale_color_viridis_d() +
+    theme_minimal()
+```
+
+```{r}
+lln_pois |>
+    mutate(nr_samples = 10 + (row_number() - 1) * 30) |> 
+    filter(nr_samples >= 10 & nr_samples < 10000) |>
+    mutate(theoretical = sqrt(4.5) / sqrt(nr_samples)) |>
+    pivot_longer(cols = c("X1", "X2", "X3")) |> 
+    mutate(name = case_when(
+        name == "X1" ~ "sim. 1",
+        name == "X2" ~ "sim. 2",
+        name == "X3" ~ "sim. 3",
+    )) |>
+    mutate(sq_err = (value - 4.55)^2) |>
+    group_by(nr_samples) |> summarise(sq_err = mean(sq_err), theoretical = mean(theoretical)) |>
+    ggplot(aes(x = nr_samples, y = sq_err)) + 
+    geom_line(se=FALSE) + 
+    geom_line(aes(x = nr_samples, y = theoretical), lty="dashed", col="darkred") +
+    scale_color_viridis_d() +
+    labs(x = "Sample size", y = "Squared error") +
+    theme_minimal()
+```
 
 
 
