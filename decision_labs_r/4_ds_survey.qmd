@@ -1,0 +1,93 @@
+---
+title: "DSc Survey"
+author: "Mihai Bizovi"
+format: html
+---
+
+```{r}
+#| output: false
+#| warning: false
+
+library(tidyverse)
+```
+
+```{r}
+col_names <- c(
+    "submit_time", "current_job", "hobbies", 
+    "competence_rpy", "competence_stats", "competence_prob", "competence_buss",
+    "programming_lang", "operating_sys", "packages_r", "packages_py", 
+    "case_study_domains", "effort_intention", "desired_carreer", 
+    "expectations"
+)
+
+df <- read_csv("data/dsc_survey.csv") |> set_names(col_names)
+df_proc <- df |> mutate(
+    submit_time = lubridate::as_datetime(submit_time),
+    current_job = str_to_lower(current_job),
+    current_job = case_when(
+        # current_job == "business analyst"         ~ "data/bi analyst",
+        # current_job == "data analyst/data science" ~ "data science / ml / statistica",
+        str_detect(current_job, pattern = ".*scien.*")         ~ "DS/ML", # exact match
+        str_detect(current_job, pattern = ".*model*")          ~ "DS/ML",
+        str_detect(current_job, pattern = ".*audit.*")         ~ "audit",
+        str_detect(current_job, pattern = ".*bi consultant.*") ~ "data analyst / bi", # exact match
+        str_detect(current_job, pattern = ".*analyst*")        ~ "data analyst / bi", # exact match
+        str_detect(current_job, pattern = ".*market*")         ~ "data analyst / bi", # exact match
+        str_detect(current_job, pattern = ".*gas.*")           ~ "finante / actuariat",
+        str_detect(current_job, pattern = ".*database.*")       ~ "SWE",
+        str_detect(current_job, pattern = ".*sys.*")            ~ "SWE",
+        str_detect(current_job, pattern = ".*program.*")        ~ "SWE",
+        str_detect(current_job, pattern = ".*nu.*")             ~ "No job",
+        .default = current_job
+    )
+) |>
+    group_by(current_job) |>
+    mutate(
+        n = n(),
+        current_job = if_else(n < 2, "other", current_job),
+    ) |>
+    group_by(current_job) |>
+    mutate(n = n()) |>
+    ungroup() 
+
+df_proc |>
+    count(current_job) |> 
+    mutate(current_job = fct_reorder(current_job, n)) |>
+    ggplot(aes(y = current_job, x = n)) + 
+    geom_col() + 
+    labs(x = "Number of students", y = "", title = "Current job",
+         subtitle = "58/75 responses") +
+    theme_minimal()
+```
+```{r}
+df_proc |>
+    mutate(current_job = paste0(current_job, " (n=", n, ")")) |>
+    mutate(current_job = fct_reorder(current_job, n)) |>
+    select(current_job, starts_with("competence")) |>
+    pivot_longer(cols = starts_with("competence")) |>
+    mutate(
+        name = case_match(
+            name,
+            "competence_buss" ~ "Business Understanding",
+            "competence_prob" ~ "Probability Theory",
+            "competence_rpy"  ~ "R and Python for DSc",
+            "competence_stats" ~ "Applied Modeling"
+        ), 
+    ) |>
+    ggplot(aes(y = current_job, fill = as.factor(value))) + 
+    geom_bar(position="fill") + 
+    facet_wrap(~ name, nrow = 2) +
+    labs(x = "proportion", y = "", fill = "competence", 
+         title = "Self-evaluation of competence in 4 key areas",
+         subtitle = "> Focus on R/Py in self-study and on modeling in lectures") +
+    scale_fill_viridis_d(option = "E") + 
+    theme_minimal() +
+    theme(legend.position = "right")
+```
+
+
+
+
+
+
+

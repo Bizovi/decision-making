@@ -1,0 +1,74 @@
+---
+title: "Newsvendor Problem"
+format: html
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+set.seed(137513)
+
+p <- 3
+c <- 1
+n <- 10000
+qty_grid <- 25:70
+
+df_sim <- crossing(nr_sim = 1:n, qty = qty_grid) |>
+    mutate(
+        demand = rbinom(
+            n = (length(qty_grid))*n, 
+            size = 200, 
+            prob = 0.2
+        ),
+        profit = p * pmin(demand, qty) - c * qty
+    ) 
+
+df_sim |>
+    group_by(qty) |>
+    summarise(
+        avg_profit = mean(profit),
+        profit_upper = mean(profit) + 2 * sd(profit) / sqrt(200),
+        profit_lower = mean(profit) - 2 * sd(profit) / sqrt(200)
+    ) |>
+    ggplot(aes(x = qty, y = avg_profit)) + 
+    geom_point() + 
+    geom_segment(aes(
+        y = profit_lower, yend = profit_upper, 
+        x = qty, xend = qty
+    )) +
+    theme_minimal()
+```
+```{r}
+df_sim |> filter(qty == 50) |> 
+    ggplot(aes(x = profit)) + 
+    geom_histogram() + 
+    theme_minimal()
+```
+
+```{r}
+
+qty_grid <- 3:20
+df_sim_pois <- crossing(nr_sim = 1:n, qty = qty_grid) |>
+    mutate(
+        demand = rpois(n = (length(qty_grid))*n, lambda = 10) ,
+        profit = p * pmin(demand, qty) - c * qty
+    ) 
+
+df_sim_pois |>
+    group_by(qty) |>
+    summarise(
+        avg_profit = mean(profit),
+        profit_upper = mean(profit) + 2 * sd(profit) / sqrt(200),
+        profit_lower = mean(profit) - 2 * sd(profit) / sqrt(200)
+    ) |>
+    ggplot(aes(x = qty, y = avg_profit)) + 
+    geom_point() + 
+    geom_segment(aes(
+        y = profit_lower, yend = profit_upper, 
+        x = qty, xend = qty
+    )) +
+    theme_minimal()
+```
+
