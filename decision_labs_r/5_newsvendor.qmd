@@ -5,6 +5,7 @@ format: html
 
 ```{r}
 library(tidyverse)
+library(rethinking)
 ```
 
 ```{r}
@@ -27,10 +28,10 @@ df_sim <- crossing(nr_sim = 1:n, qty = qty_grid) |>
 
 df_sim |>
     group_by(qty) |>
-    summarise(
+    reframe(
         avg_profit = mean(profit),
-        profit_upper = mean(profit) + 2 * sd(profit) / sqrt(200),
-        profit_lower = mean(profit) - 2 * sd(profit) / sqrt(200)
+        profit_upper = rethinking::HPDI(profit, prob = 0.7)[1],
+        profit_lower = rethinking::HPDI(profit, prob = 0.7)[2],
     ) |>
     ggplot(aes(x = qty, y = avg_profit)) + 
     geom_point() + 
@@ -38,10 +39,24 @@ df_sim |>
         y = profit_lower, yend = profit_upper, 
         x = qty, xend = qty
     )) +
+    labs(
+        x = "quantity ordered", y = "Profit ($)", 
+        title = "Expectation max. might not be what we want",
+        subtitle = "Suggested by 70% highest density interval, not conf. int."
+    ) +
     theme_minimal()
 ```
 ```{r}
-df_sim |> filter(qty == 50) |> 
+dem <- rbinom(size = 200, n = 10000, prob = 0.2) 
+dem_dens <- dbinom(x = seq(1, 100, 1), size = 200, prob = 0.2)
+dem |> hist(main = "Sanity check on distribution of demand", xlab = "demand", 
+         probability = TRUE, breaks = 30)
+lines(dem_dens)
+rug(jitter(dem))
+```
+
+```{r}
+df_sim |> filter(qty == 47) |> 
     ggplot(aes(x = profit)) + 
     geom_histogram() + 
     theme_minimal()
