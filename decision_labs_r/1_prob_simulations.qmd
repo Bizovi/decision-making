@@ -274,6 +274,19 @@ lln_pois |>
     theme_minimal()
 ```
 
+## References and resources 
 
+In the course I outline the distinction between probability theory and mathematical statistics. We just scratched the surface of the (generative) stories behind probability distributions and conjuring / imagining data generating processes (or population models). I recommend the following resources for individual study:
+
+- Adam Fleischhacker:
+    - Ch. 10 of `causact` - [Representing uncertainty](https://www.causact.com/representing-uncertainty) (R)
+    - [Ch. 1](https://www.persuasivepython.com/1-repuncertainty) and [Ch. 6](https://www.persuasivepython.com/5-plausvisualization) of Persuasive Python (Python)
+- Huber: Modern statistics for modern biology [Ch. 1](https://www.huber.embl.de/msmb/01-chap.html)
+- Speegle: Probability, Statisitcs, and data [Ch. 3](https://probstatsdata.com/discreterandomvariables.html)
+    - I would also recommend Blitzstein's Probability 110 book and [course](https://projects.iq.harvard.edu/stat110/home) for an intensive intermediate course in probability
+- Crump: Answering questions with data [Ch. 4](https://www.crumplab.com/statistics/04-SamplesPopulations.html)
+- Roback: Beyond Multiple Linear Regression [Ch. 3](https://bookdown.org/roback/bookdown-BeyondMLR/ch-distthry.html)
+
+Moving on, there are three directions we have to take: deeply understanding relationships between random variables and the idea of **conditioning**, reviewing the key ideas in statistical inference, and expanding our toolbox to more kinds of distributions for specialized applications.
 
 
