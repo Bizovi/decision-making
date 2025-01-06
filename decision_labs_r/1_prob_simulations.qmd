@@ -1,17 +1,18 @@
 ---
-title: "Birthday Paradox"
+title: "Simplest generative models"
+author: "Mihai Bizovi"
 format: html
 ---
 
 ## Birthday paradox
 
-Find your colleagues near you, discuss for 3 minutes. 
-Give your best guess for a range of n (+- 10%) for which the chance would be 50%.
+Find a colleague near you, discuss for 3 minutes how many people you need in a room ($n$) so that the probability of any two people having a matching birthdays is close to 0.5. Or the other way around, given there are $n = 30$, what is the probability of a matching birthday? In what range is your answer $[0, 0.19), [0.20, 0.39), [0.4, 0.59), [0.6, 0.79), [0.8, 1]$?
 
-If you know the pigeonhole principle and a math trick, you could derive it analytically. 
-Then, get a sense of the curve with a quick plot.
+> Tip: think of boundary conditions and how many possible pairs there are for a given $n$.
 
 ```{r load-packages}
+#| warning: false
+
 library(tidyverse)
 library(viridisLite)
 ```
@@ -22,7 +23,7 @@ library(viridisLite)
 
 sim <- tibble(
     nr_people = 2:70,
-    prob = sapply(2:70, \(x) 1 - prod((366 - 1:x) / 365))
+    prob = sapply(nr_people, \(x) 1 - prod((366 - 1:x) / 365))
 )
 
 prob_half <- sim |> 
@@ -32,10 +33,11 @@ prob_half <- sim |>
 prob_half
 ```
 
-It takes a lot of effort to do a nice plot in base R. 
-On the bright side, you have no dependencies.
+Let's see how the analytical solution looks like. It takes a lot of effort to do a nice plot in base R, this is why we will mostly use `ggplot2` in this course.
 
 ```{r plotting}
+#| code-fold: true
+
 par(# mar = c(3, 3, 3, 3),  # Dist' from plot to side of page
     mgp = c(3, 1, 0),       # Dist' plot to label
     las = 1,                # Rotate y-axis text
@@ -71,11 +73,10 @@ at <- seq(0, 1, 0.25)
 mtext(side = 2, text = at, at = at, col = "grey40", line = 1, cex = 0.9)
 ```
 
-In reality, the math could be too complex or we don't even know where to start.
-Let's try it with base R
+In realistic problems that we'll encounter in practice and the rest of the course, the math could be too difficult for us to derive an analytic solution. Other times, we don't even know where to start. This is where simulating the generating process is an essential skill. There are two workhorses we will leverage a lot in this course: `replicate` and `tidyr::crossing`.
 
 ```{r sim-base-r}
-nr_people <- 25 
+nr_people <- 30
 
 simulate_birthdays <- function(nr_people, nr_sim = 10000) {
 	birthday_events <- replicate(n = nr_sim, {
@@ -89,8 +90,7 @@ pr_same_bday <- simulate_birthdays(nr_people)
 bday_match_size <- sapply(2:90, simulate_birthdays, nr_sim = 10000)
 ```
 
-
-Then a totally different way of doing it with same results: tidyverse.
+A quick check of the results, show that probability of n = `r nr_people` people having a matching birthday is `r round(pr_same_bday, 2)`. Let's see now a totally different way of doing it with same results (the tidy way).
 
 ```{r sim-tidy}
 summarised <- tidyr::crossing(
@@ -123,7 +123,7 @@ Some possible applications:
 - Related problem -- partition problem (weights on 2 scales), balance them: e.g. Dota / MMR
 
 
-## Airplane Example
+## Showing up to a safari trip
 
 ```{r}
 set.seed(13131)
@@ -135,7 +135,8 @@ prob_showup <- 0.85
 # validate final proportion of couples and individuals
 replicate(n = 10000, {
     first <- ifelse(rbinom(1, 1, prevalence_couples) == 1, "CC", "I")
-    second <- ifelse(first == "CC", "", ifelse(rbinom(1, 1, prevalence_couples) == 1, "CC", "I"))
+    second <- ifelse(first == "CC", "", 
+        ifelse(rbinom(1, 1, prevalence_couples) == 1, "CC", "I"))
     third <- ifelse(second == "I", "I", "")
     paste0(first, second, third)
 }) |> grepl(pattern = "C") |> table() / 10000
@@ -147,14 +148,15 @@ simulate_customers <- function(
     prob_showup = 0.85,
     nr_sim = 10000
 ) {
-    prob_couple <- prevalence_couples + (1 - prevalence_couples) * prevalence_couples  # (1 - (1 - 0.6)**2)
+    prob_couple <- prevalence_couples + 
+        (1 - prevalence_couples) * prevalence_couples
 
-    replicate(n = 10000, {
+    replicate(n = nr_sim, {
         has_couple <- rbinom(1, 1, prob_couple)
         y_ind <- rbinom(1, 3 - 2*has_couple, prob_showup)
         y_mix <- has_couple * 2 * rbinom(1, 1, prob_showup^2)
         y_ind + y_mix
-    }) |> table() / 10000
+    }) |> table() / nr_sim
 }
 
 simulate_customers()
@@ -173,8 +175,9 @@ tibble(
 
 
 ```{r}
+nr_sim <- 10000
 tibble(
-    has_couple = rbinom(10000, 1, prob_couple),
+    has_couple = rbinom(nr_sim, 1, prob_couple),
     nr_individ = 3 - 2*has_couple,
     y_ind = purrr::map_int(nr_individ, \(x) rbinom(1, x, prob_showup)),
     y = y_ind + has_couple * 2 * purrr::map_int(has_couple, \(x) rbinom(1, 1, prob_showup^2)),
@@ -182,7 +185,7 @@ tibble(
 ) |> 
     select(y, model) |>
     rbind(tibble(
-        y = rbinom(10000, 3, prob_showup),
+        y = rbinom(nr_sim, 3, prob_showup),
         model = "binom"
     )) |>
     group_by(model) |>
@@ -195,20 +198,22 @@ tibble(
     scale_y_continuous(labels = scales::percent_format()) + 
     theme_minimal()
 ```
+
 ```{r}
 set.seed(11131)
+
 prob_grid <- seq(0, 1, 0.02)
 sapply(
     prob_grid, 
-    FUN = \(x) simulate_customers(prevalence_couples = x, prob_showup = 0.85, nr_sim = 10000)
+    FUN = \(x) simulate_customers(prevalence_couples = x, prob_showup = 0.85, nr_sim = nr_sim)
 ) |> t() |> data.frame() |> tibble() |>
     mutate(
         prevalence = prob_grid,
         expect = 0 * X0 + 1 * X1 + 2 * X2 + 3 * X3,
         variance = (0^2*X0 + 1^2*X1 + 2^2*X2 + 3^2*X3) - expect ^2,
         loss_due_couples = expect - max(expect),
-        loss_upper = loss_due_couples + 2 * sqrt(variance / 10000),
-        loss_lower = loss_due_couples - 2 * sqrt(variance / 10000)
+        loss_upper = loss_due_couples + 2 * sqrt(variance / nr_sim),
+        loss_lower = loss_due_couples - 2 * sqrt(variance / nr_sim)
     ) |>
     ggplot(aes(x = prevalence, y = loss_due_couples)) + 
     geom_point(color = "darkred") +
@@ -262,7 +267,7 @@ lln_pois |>
     mutate(sq_err = (value - 4.55)^2) |>
     group_by(nr_samples) |> summarise(sq_err = mean(sq_err), theoretical = mean(theoretical)) |>
     ggplot(aes(x = nr_samples, y = sq_err)) + 
-    geom_line(se=FALSE) + 
+    geom_line() + 
     geom_line(aes(x = nr_samples, y = theoretical), lty="dashed", col="darkred") +
     scale_color_viridis_d() +
     labs(x = "Sample size", y = "Squared error") +
