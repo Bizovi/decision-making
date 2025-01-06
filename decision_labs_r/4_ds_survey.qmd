@@ -1,5 +1,5 @@
 ---
-title: "DSc Survey"
+title: "Survey of Students in the DS class"
 author: "Mihai Bizovi"
 format: html
 ---
@@ -12,6 +12,9 @@ library(tidyverse)
 ```
 
 ```{r}
+#| code-fold: true
+#| warning: false
+
 col_names <- c(
     "submit_time", "current_job", "hobbies", 
     "competence_rpy", "competence_stats", "competence_prob", "competence_buss",
@@ -60,6 +63,8 @@ df_proc |>
     theme_minimal()
 ```
 ```{r}
+#| code-fold: true
+
 df_proc |>
     mutate(current_job = paste0(current_job, " (n=", n, ")")) |>
     mutate(current_job = fct_reorder(current_job, n)) |>
