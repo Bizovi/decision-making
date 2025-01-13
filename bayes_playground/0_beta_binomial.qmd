@@ -279,6 +279,28 @@ p4 <- estimate_defects(nr_batches = 30) |> plot_posterior(nr_batches = 30)
 
 Note that with the first batch, we got very lucky with the data, and the prior was too optimistic. And even if we did hit a "sweet spot" after 10 batches, it's still mostly due randomness -- we will expect our posterior to drift further.
 
+```{r}
+# What data can we expect after the inference done on 3 batches?
+
+df_3batches <- estimate_defects(nr_batches = 3) 
+tibble(
+    post_spl = sample(
+        df_3batches |> pull(grid), size = 2000,
+        prob = df_3batches |> pull(posterior), 
+        replace = TRUE
+    ), 
+    y = rbinom(n = 2000, size = 80, prob = post_spl)
+) |> ggplot(aes(x = y)) + 
+    geom_bar() + 
+    theme_minimal() + 
+    labs(
+        title = "Posterior predictive check",
+        x = "Number of defects", y = "Number of samples"
+    )
+
+```
+
+
 ## Bioassay experiment
 
 
