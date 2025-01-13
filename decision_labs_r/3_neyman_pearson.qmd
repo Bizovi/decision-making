@@ -1,0 +1,122 @@
+---
+title: "3_neyman_pearson"
+format: html
+---
+
+```{r distrib-pvalue}
+set.seed(1243)
+p_values <- replicate(n = 1e4, {
+    x <- rnorm(n = 71, mean = 100, sd = 15) # Simulate data under H0
+    y <- rnorm(n = 71, mean = 107, sd = 15) # Simulate data under H1
+    t.test(x, y, var.equal = TRUE)$p.value
+})
+
+test_power <- mean(p_values < 0.05) |> round(2)
+hist(p, main = paste0("What p-values can you expect for power = ", test_power, "?"), xlab = "p-value")
+```
+```{r}
+n <- 200 # total number of datapoints (per condition) after initial 10
+d <- 0.0 # effect size d
+
+p <- numeric(n) # store p-values
+x <- numeric(n) # store x-values
+y <- numeric(n) # store y-values
+
+n <- n + 10 # add 10 to number of datapoints
+
+for (i in 10:n) { # for each simulated participants after the first 10
+  x[i] <- rnorm(n = 1, mean = 0, sd = 1)
+  y[i] <- rnorm(n = 1, mean = d, sd = 1)
+  p[i] <- t.test(x[1:i], y[1:i], var.equal = TRUE)$p.value
+}
+
+p <- p[10:n] # Remove first 10 empty p-values
+
+# Create the plot
+par(bg = "#fffafa")
+plot(0, col = "red", lty = 1, lwd = 3, ylim = c(0, 1), xlim = c(10, n), 
+     type = "l", xlab = "sample size", ylab = "p-value")
+lines(p, lwd = 2)
+abline(h = 0.05, col = "darkgrey", lty = 2, lwd = 2) # draw line at p = 0.05
+
+min(p) # Return lowest p-value from all looks
+cat("The lowest p-value was observed at sample size", which.min(p) + 10) 
+cat("The p-value dropped below 0.05 for the first time at sample size:", 
+    ifelse(is.na(which(p < 0.05)[1] + 10), "NEVER", which(p < 0.05)[1] + 10)) 
+```
+
+```{r}
+N <- 100 # total datapoints (per condition)
+looks <- 5 # set number of looks at the data
+nsims <- 50000 # number of simulated studies
+alphalevel <- 0.05 # set alphalevel
+
+if(looks > 1){
+  look_at_n <- ceiling(seq(N / looks, N, (N - (N / looks)) / (looks - 1)))
+}  else {
+  look_at_n <- N
+}
+look_at_n <- look_at_n[look_at_n > 2] # Remove looks at N of 1 or 2
+looks<-length(look_at_n) # if looks are removed, update number of looks
+
+matp <- matrix(NA, nrow = nsims, ncol = looks) # Matrix for p-values l tests
+p <- numeric(nsims) # Variable to save pvalues
+
+# Loop data generation for each study, then loop to perform a test for each N
+for (i in 1:nsims) {
+  x <- rnorm(n = N, mean = 0, sd = 1)
+  y <- rnorm(n = N, mean = 0, sd = 1)
+  for (j in 1:looks) {
+    matp[i, j] <- t.test(x[1:look_at_n[j]], y[1:look_at_n[j]], 
+                         var.equal = TRUE)$p.value # perform the t-test, store
+  }
+  # cat("Loop", i, "of", nsims, "\n")
+}
+
+# Save Type 1 error rate smallest p at all looks
+for (i in 1:nsims) {
+  p[i] <- ifelse(length(matp[i,which(matp[i,] < alphalevel)]) == 0, 
+                 matp[i,looks], matp[i,which(matp[i,] < alphalevel)])
+}
+
+hist(p, breaks = 100, col = "grey") # create plot
+abline(h = nsims / 100, col = "red", lty = 3)
+
+cat("Type 1 error rates for look 1 to", looks, ":", 
+    colSums(matp < alphalevel) / nsims)
+cat("Type 1 error rate when only the lowest p-value for all looks is reported:", 
+    sum(p < alphalevel) / nsims)
+```
+
+
+```{r}
+library(TOSTER)
+```
+
+```{r}
+result <- TOSTER::tsum_TOST(m1 = 4.55, m2 = 4.87, sd1 = 1.05, sd2 = 1.11, n1 = 200, n2 = 200, low_eqbound = -0.5, high_eqbound = 0.5)
+
+# plot the result
+plot(result, type = "tnull", estimates = "raw")
+
+# print the result
+result
+```
+
+```{r}
+res <- TOSTER::tsum_TOST(m1 = 4.55, m2 = 4.87, sd1 = 1.05, sd2 = 1.11,
+                  n1 = 15, n2 = 15, low_eqbound = -0.5, high_eqbound = 0.5)
+
+plot(res, type = "tnull")
+res
+```
+
+
+
+
+
+
+
+
+
+

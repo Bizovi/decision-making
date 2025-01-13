@@ -1,0 +1,318 @@
+---
+title: "Bayes Rule and Beta-Binomial"
+format: html
+---
+
+```{r load-packages}
+#| warning: false
+#| message: false
+
+library(rethinking)
+library(tidyverse)
+library(patchwork)
+library(glue)
+```
+
+## Bayes' Rule
+
+- Thinking in samples: shyness by department, murder mystery
+- Medical testing example: PPV, Bayes Factors and relevance for FDR in hypothesis testing
+
+
+## Beta-Binomial inference of proportions
+
+- Start with a left-handedness example. 
+    - Show a prior predictive check (expectation before seeing data)
+- Highlight key ideas of Bayesian updating 
+- Emphasise the importance of informed prior choice. 
+    - Story of cave paintings and large-scale prior studies
+    - Bias in history and across cultures (surveys vs observations)
+    - Again, remember that the reasons are not in data
+
+```{r}
+nr_stud <- 32
+tibble(
+    theta = rbeta(10000, 8, 60), 
+    y = purrr::map_int(theta, ~rbinom(n = 1, size = nr_stud, prob = .))
+) |>
+    group_by(y) |> summarise(n = n()) |> ungroup() |>
+    mutate(freq = n / sum(n)) |>
+    ggplot(aes(x = y, y = freq)) + 
+    geom_col(color = "skyblue3", fill = "skyblue3") + 
+    theme_minimal() + 
+    labs(
+        title = "What can we expect before seeing the data?",
+        subtitle = glue("For a sample of n = {nr_stud} students"),
+        x = "Number of left-handed students", y = "probability"
+    )
+```
+
+
+```{r left-handedness}
+df_lh <- tribble(
+    ~lefties, ~n,
+    3, 3 ,
+    3, 10,
+    1, 5 , 
+    0, 4 , 
+    1, 2 ,
+    2, 25
+)
+
+plot_updating <- function(df_lh, alpha = 8, beta = 60) {
+    df_lh |> 
+    mutate(
+        row = row_number(),
+        lefties = cumsum(lefties),
+        n = cumsum(n),
+        prev_n = lag(n, n = 1L, default = 0),
+        prev_succ = lag(lefties, n = 1L, default = 0), 
+    ) |> 
+    crossing(p = seq(0, 1, length.out = 100)) |>
+    mutate(
+        prior = dbeta(p, 
+            shape1 = alpha + prev_succ, 
+            shape2 = beta + prev_n - prev_succ
+        )
+    ) |> 
+    ggplot(aes(x = p, y = prior, group = row, color = as.factor(row))) + 
+    geom_line() + 
+    scale_color_viridis_d(option = "G") + 
+    labs(x = expression(paste('Proportion left-handed: ', theta)), color = "class row") + 
+    theme_minimal() + 
+    theme(legend.position = "none")
+}
+
+p1 <- plot_updating(df_lh, alpha = 1, beta = 1) + 
+    labs(
+        title = "Uniform priors are NOT objective",
+        subtitle = expression(paste(alpha, ' = 1', ' and ', beta, '= 1')),
+        y = "Prior and posterior density"
+    )
+p2 <- plot_updating(df_lh, alpha = 8, beta = 60) +
+    labs(
+        title = "Leveraging prior studies",
+        subtitle = expression(paste(alpha, ' = 8', ' and ', beta, '= 60')), 
+        y = ""
+    )
+
+(p1 | p2)
+``` 
+## Inbound Quality Control. Measurement error
+
+- Quality control example, with samples from palettes. 
+    - Explain the Neyman-Pearson error control approach (detour)
+    - Importance of default action, sample size calculations
+    - For a change from RCT and A/B testing
+- Bayesian analysis can easily leverage a screening stage
+    - We can simulate the consequences in costs of screening all, propagate the uncertainty
+    - Tolerance in defects for sold products (cost in reputation and refunds)
+- Human error: false negatives -- especially painful for low values of $\theta$ (defect rate)
+    - Maybe we need more training or a better procedure at the warehouse?
+    - Or it's better for the 2nd person to double-check (in the small sample)
+    - If we ignore misclassification, measurement error we will underestimate defect proportion
+
+An ad-hoc approach of just multiplying by an error rate doesn't capture the uncertainty in estimates. especially in small samples, it could seriously break our hypothesis test. We could check this via a simulation.
+
+- Phase 1: A small sample for screening - infer defect proportion given measurement error in process
+    - See what are the consequences on the cost(s)
+- Phase 2: Decide if we need to investigate further with a bigger sample.
+    - This will be more costly in terms of time and wages / efforts of workers
+    
+Analysis: under different true defect percentages and sample sizes chosen, and human error rates - investigate the quality of inferences. What is better in the screening: bigger sample, double check, more time spent and paying more attention (diminishing returns or a sigmoid-like function).
+
+
+```{r}
+defect_tolerance <- 0.04
+n_sample <- 40
+
+sim_defects <- function(
+    defect_rate = 0.25, error_rate = 0.07, n_sample = 40,
+    nr_sim = 10000
+) {
+    defects <- replicate(n = nr_sim, {
+        defects <- rbinom(n_sample, size = 1, prob = defect_rate)
+        measured_defects <- sum(ifelse(
+            defects == 1, 
+            ifelse(runif(n_sample, min = 0, max = 1) <= error_rate, 0, 1),
+            # rbinom(n_sample, size = 1, prob = 1 - error_rate), 
+            defects
+        ))
+        c(measured_defects, defects = sum(defects))
+    }) |> t() |> as.data.frame() |> tibble() 
+    
+    colnames(defects) <- c("measured_defects", "defects")
+    defects
+}
+
+# for lower defect rate you will not notice the peak at zero
+df_defects1 <- sim_defects() 
+df_defects1 |> pull(measured_defects) |> table() |> 
+    barplot(
+        col = "skyblue3",
+        main = glue("Detected defects, rate = {round(mean(df_defects1$defects) / n_sample, 3)}")
+    )
+```
+All of these cases are somewhat happy, as misclassification error is constant, random, and on the outcome variable. An ad-hoc procedure might work well and we might even get away with it, but this is not true in general.
+
+```{r}
+par(mfrow = c(2, 3), mar = c(4, 2, 3, 2))
+
+error_rate <- 0.12
+n_sample <- 80
+
+for (defect_rate in c(0.02, 0.06, 0.10, 0.15, 0.25, 0.35)) {
+    df_defects2 <- sim_defects(defect_rate = defect_rate, n_sample = n_sample, error_rate = error_rate)
+    avg_defects <- mean(df_defects2 |> pull(measured_defects) / n_sample)
+    
+    ( df_defects2 |> pull(measured_defects) / n_sample) |> 
+        rethinking::dens(
+            main = glue("Defect rate = {defect_rate}"),
+            show.HPDI = 0.83, adj = 2 + 0.1 / defect_rate,
+            xlab = expression(theta), ylab = ""
+        )
+    ( df_defects2 |> pull(defects) / n_sample) |> 
+        rethinking::dens(
+            main = glue("Defect rate = {defect_rate}"), adj = 2 + 0.1 / defect_rate,
+            xlab = expression(theta), ylab = "",
+            add = TRUE, col = "darkgreen"
+        )
+    abline(v = avg_defects, col = "darkred", lwd = 2)
+    abline(v = defect_rate, col = "darkgreen", lwd = 2) # true defect rate
+    abline(v = avg_defects * (1 + error_rate), col = "darkred", lwd = 1, lty = "dashed")
+}
+```
+Next, let's look at a highly noisy example, if the sample sizes are small and misclassification error large. Theoretically, if we are to investigate carefully all products in a given pallet, we would know the population parameter, which is true for each one. There is also a distribution over all pallets, which might vary by manufacturer and other factors and will probably be skewed.
+
+
+```{r}
+# A highly noisy example
+par(mfrow = c(2, 3), mar = c(4, 2, 3, 2))
+
+error_rate <- 0.25
+n_sample <- 30
+
+for (defect_rate in c(0.02, 0.06, 0.10, 0.15, 0.25, 0.35)) {
+    df_defects2 <- sim_defects(defect_rate = defect_rate, n_sample = n_sample, error_rate = error_rate)
+    avg_defects <- mean(df_defects2 |> pull(measured_defects) / n_sample)
+    
+    ( df_defects2 |> pull(measured_defects) / n_sample) |> 
+        rethinking::dens(
+            main = glue("Defect rate = {defect_rate}"),
+            show.HPDI = 0.83, adj = 2 + 0.1 / defect_rate,
+            xlab = expression(theta), ylab = ""
+        )
+    ( df_defects2 |> pull(defects) / n_sample) |> 
+        rethinking::dens(
+            main = glue("Defect rate = {defect_rate}"), adj = 2 + 0.1 / defect_rate,
+            xlab = expression(theta), ylab = "",
+            add = TRUE, col = "darkgreen"
+        )
+    abline(v = avg_defects, col = "darkred", lwd = 2)
+    abline(v = defect_rate, col = "darkgreen", lwd = 2) # true defect rate
+    abline(v = avg_defects * (1 + error_rate), col = "darkred", lwd = 1, lty = "dashed")
+}
+```
+So, how we might model this in a principled way and not engage in ad-hockery? Follow the rules of probability and Bayes rule! The key point is that the quantity of interest (nr. of products with defects) is unobserved.
+
+```{r}
+#| warning: false
+
+set.seed(121351)
+
+m_err <- 0.1
+nr_batches <- 100
+defect_rate <- 0.3
+dd <- sim_defects(defect_rate = defect_rate, n_sample = 80, error_rate = m_err) |> 
+    mutate(cmd = cumsum(measured_defects))
+
+pgrid_1 <- seq(0, 1, length.out = 1000)
+prior_1 <- dbeta(pgrid_1, 2, 2) 
+
+estimate_defects <- function(nr_batches) {
+    df_sim2 <- tibble(
+        grid  =  pgrid_1,
+        prior = dbeta(pgrid_1, 8, 30), 
+        likelihood = (
+            dbinom(dd$cmd[nr_batches], size = nr_batches*80, prob = grid * (1 - m_err)) 
+        ),
+        posterior = prior * likelihood / sum(prior * likelihood), 
+        biased =  (
+            prior * dbinom(dd$cmd[nr_batches], size = nr_batches*80, prob = grid) / 
+            sum(prior * dbinom(dd$cmd[nr_batches], size = nr_batches*80, prob = grid))
+        )
+    ) |>
+        mutate(
+            prior = prior / sum(prior), 
+            likelihood = likelihood / sum(likelihood)
+        ) 
+    df_sim2
+}
+
+plot_posterior <- function(df, nr_batches = 1) {
+    df |>
+        pivot_longer(prior:biased) |>
+        ggplot(aes( x= grid, y = value)) + 
+        # facet_wrap(~name, scales = "free") + 
+        geom_line(aes(color = name )) + # == "biased_posterior"
+        geom_vline(xintercept = defect_rate, lty = 2) + 
+        scale_x_continuous(
+            breaks = seq(0, 1, by = 0.1), 
+            labels = seq(0, 1, by = 0.1)) + 
+        theme_minimal() + 
+        theme(legend.position = "bottom") + 
+        labs(
+            x = "prop. defects", y = "", subtitle = glue("n = {nr_batches} batches"), 
+            color = ""
+        ) + 
+        lims(x = c(0, 0.5))
+}
+
+p1 <- estimate_defects(nr_batches = 1)  |> plot_posterior(nr_batches = 1)
+p2 <- estimate_defects(nr_batches = 3)  |> plot_posterior(nr_batches = 3)
+p3 <- estimate_defects(nr_batches = 10) |> plot_posterior(nr_batches = 10)
+p4 <- estimate_defects(nr_batches = 30) |> plot_posterior(nr_batches = 30)
+
+(p1 | p2) / 
+(p3 | p4)
+```
+
+Note that with the first batch, we got very lucky with the data, and the prior was too optimistic. And even if we did hit a "sweet spot" after 10 batches, it's still mostly due randomness -- we will expect our posterior to drift further.
+
+## Bioassay experiment
+
+
+
+## Calibration of scores into probabilities
+
+- Record linkage
+- Any score from a ML classification model to be used in follow-up decisions
+- Approaches: Isotonic regression, Beta regression, Mixture model(s)
+
+
+## Other business applications
+
+- CVR and choices of ways to purchase, A/B testing
+    - Variation due to DOW, seasonality, promotions
+- Advertisement, attribution models, and marketing mix modeling - tradeoffs of scale and CPA
+    - Optimal allocation of spend to marketing channels
+    - GeoTesting experiments
+    - Delayed effects, fatigue
+- Survival models and customer churn
+- BTYD models for CLTV
+- Detecting fraud, credit default risks
+- Pricing and willingness to pay
+
+
+
+
+
+
+
+
+
+
+
+
+
+
