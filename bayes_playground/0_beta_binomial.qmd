@@ -30,6 +30,7 @@ library(glue)
     - Again, remember that the reasons are not in data
 
 ```{r}
+# this will actually be a betabinomial distribution p(y)
 nr_stud <- 32
 tibble(
     theta = rbeta(10000, 8, 60), 
@@ -46,6 +47,9 @@ tibble(
         x = "Number of left-handed students", y = "probability"
     )
 ```
+$$Y_{1}\sim {\text{BetaBin}}(n_{1},\alpha ,\beta )$$
+$$\theta | y \sim  \mathrm {Beta} (y_{1}+\alpha ,n_{1}-y_{1}+\beta )$$
+$$ Y_{2}\sim \mathrm {BetaBin} (n_{2},y_{1}+\alpha ,n_{1}-y_{1}+\beta )$$
 
 
 ```{r left-handedness}
@@ -213,10 +217,12 @@ for (defect_rate in c(0.02, 0.06, 0.10, 0.15, 0.25, 0.35)) {
     abline(v = avg_defects * (1 + error_rate), col = "darkred", lwd = 1, lty = "dashed")
 }
 ```
-So, how we might model this in a principled way and not engage in ad-hockery? Follow the rules of probability and Bayes rule! The key point is that the quantity of interest (nr. of products with defects) is unobserved.
+So, how we might model this in a principled way and not engage in ad-hockery? Follow the rules of probability and Bayes rule! The key point is that the quantity of interest (nr. of products with defects) is unobserved. For this simple example, we will use a grid approximation -- but when it comes to including more predictors or modeling measurement error in categorical independent variables, we will need much more sophisticated computational techniques, along with computational tricks to make the HMC work.
+
 
 ```{r}
 #| warning: false
+#| message: false
 
 set.seed(121351)
 
@@ -299,17 +305,127 @@ tibble(
     )
 
 ```
+If we are interested in reality of the distribution of defects across many different pallets (a population of pallets), the most principled approach is to do a multilevel model with partial pooling. It is appropriate, especially in the sense of leveraging previous information to generalize to new pallets.
+
+Technically speaking, in this example we inferred a single global proportion, with its prior distribution. In multilevel models, each pallet has its own proportion of defects and potential repeated observations (multiple batches). But, addditionally, those pallet-level parameters are generated from population parameters - which give us insight into the new pallets. Speaking in another way, it is a much more efficient way to use information for estimation.
+
+In the class, we will investigate multiple classical examples of multilevel models: from education (8 schools), from biology (rats, tadpoles) experiments, from environmental science (radon concentration) and psychology (performance anxiety).
 
 
 ## Bioassay experiment
 
+- Link functions and logistic regression
+- Illustrative: golf put probabilities - geometrical justification of link function
+
+## Multiparameter models - Speed of light, Football spreads
+
+- Mention of true-skill models for ranking and matchmaking
 
 
 ## Calibration of scores into probabilities
 
+Careful with mixture models if used liberally and flexibly. Might be more trouble than worth it.
+
 - Record linkage
 - Any score from a ML classification model to be used in follow-up decisions
 - Approaches: Isotonic regression, Beta regression, Mixture model(s)
+
+## BTYD Models and Customer Lifetime Value
+
+
+## Football spreads
+
+```{r}
+df_football <- read_csv(
+    "http://www.stat.columbia.edu/~gelman/book/data/football.asc", 
+    skip = 6
+)
+d_fb <- df_football |> 
+    pull(1) |>
+    purrr::map(\(x) stringr::str_split(x, pattern = "\\s+")) |> 
+    purrr::flatten() |> 
+    purrr::transpose() |> map(unlist)
+
+# home favorite underdog spread favorite.name underdog.name week
+df_games <- tibble(
+    home     = as.integer(d_fb[[1]]),
+    favorite = as.integer(d_fb[[2]]),
+    underdog = as.integer(d_fb[[3]]),
+    spread   = as.numeric(d_fb[[4]]),
+    fav_name = d_fb[[5]],
+    und_name = d_fb[[6]],
+    week     = as.integer(d_fb[[7]])
+) |> 
+    mutate(match_id = row_number())
+
+write_csv(df_games, "data/gelman_games.csv")
+```
+
+```{r}
+df_games <- read_csv("data/gelman_games.csv")
+df_games |> glimpse()
+```
+
+```{r}
+df_games |> 
+    mutate(fav_diff = favorite - underdog, home = as.factor(home)) |>
+    ggplot(aes(x = spread, y = fav_diff)) +
+    geom_jitter(width = 0.2, shape = 1, stroke = 1.5, alpha = 0.5, color = "skyblue3") + 
+    stat_smooth(method = "lm", se = FALSE, color = "dodgerblue4") +
+    geom_hline(yintercept = 0, lty = "dashed", color = "dodgerblue4") +
+    theme_minimal() + 
+    labs(x = "Bookie's point spreads", y = "Outcome difference (fav - underdog)")
+```
+
+Instead of estimating empirical frequencies from raw data -- we can use a principled approach and use a model. Then, we can more reliably answer about the probabilities of winning given a certain point spread. All of this works for a population of matches, and given the subjective beliefs of bookmakers. For an individual match, we would model this in a completely different way.
+
+```{r}
+est_sd <- df_games |> 
+    mutate(
+        fav_diff = favorite - underdog, home = as.factor(home),
+        diff = fav_diff - spread
+    ) |> pull(diff) |> sd()
+```
+
+```{r}
+df_games |> 
+    mutate(
+        fav_diff = favorite - underdog, home = as.factor(home),
+        diff = fav_diff - spread
+    ) |>
+    ggplot(aes(diff)) + 
+    geom_histogram(
+        aes(y = ..density..), color = "white", fill = "skyblue3", 
+        bins = 40
+    ) + 
+    stat_function(
+        fun = \(x) dnorm(x, mean = 0, sd = est_sd), 
+        color = "dodgerblue4", lty = "dotted", linewidth = 1,
+    ) +
+    theme_minimal() + 
+    labs(x = "Outcome - Spread")
+```
+A principled way to model ability (latent quantity, evolving in time) and performance (noisy outcome of ability) would be an approach like True Skill (for ranking and matchmaking). Some of the sports have ELO-systems, which are much simpler and also work under certain assumptions.
+
+We will not dive into sports analytics, especially measuring performance among many dimensions, like in basketball or baseball (at player and team level). However, it is a very cool area for statistical research -- where we can leverage hierarchical models and model defensive and offensive (latent abilities).
+
+- Karlis, D. & Ntzoufras, I. 2003. Analysis of sports data using bivariate Poisson models. Journal of the Royal Statistical Society. 52(3), pp. 381-393.
+- Baio, G. & Blangiardo, M. 2010. Bayesian hierarchical model for the prediction of football results. Journal of Applied Statistics. 37(2), pp. 253-264.
+
+```{r}
+# probability favorite wins
+seq(-50, 50, by = 0.5) |>
+    sapply(
+        \(x) pnorm(q = x, mean = 0, sd = est_sd, lower.tail = TRUE)
+    ) |> 
+    plot(
+        x = seq(-50, 50, by = 0.5), type = "l", 
+        ylab = "CDF", xlab = "point spread", 
+        main = "Probability of win given a point spread"
+    )
+abline(v = 0, lty = 2)
+abline(h = 0.5, lty = 2)
+```
 
 
 ## Other business applications
@@ -325,6 +441,9 @@ tibble(
 - Detecting fraud, credit default risks
 - Pricing and willingness to pay
 
+```{r}
+body(rethinking::dbetabinom)
+```
 
 
 
